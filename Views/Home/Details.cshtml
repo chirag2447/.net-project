@@ -1,0 +1,1690 @@
+﻿@model communityWeb.Models.SinglePostView
+@{
+    string MyFunction(DateTime dateTime)
+    {
+        string result = string.Empty;
+        var timeSpan = DateTime.Now.Subtract(dateTime);
+
+        if (timeSpan <= TimeSpan.FromSeconds(60))
+        {
+            result = string.Format("{0} seconds ago", timeSpan.Seconds);
+        }
+        else if (timeSpan <= TimeSpan.FromMinutes(60))
+        {
+            result = timeSpan.Minutes > 1 ?
+            String.Format("about {0} minutes ago", timeSpan.Minutes) :
+            "about a minute ago";
+        }
+        else if (timeSpan <= TimeSpan.FromHours(24))
+        {
+            result = timeSpan.Hours > 1 ?
+            String.Format("about {0} hours ago", timeSpan.Hours) :
+            "about an hour ago";
+        }
+        else if (timeSpan <= TimeSpan.FromDays(30))
+        {
+            result = timeSpan.Days > 1 ?
+            String.Format("about {0} days ago", timeSpan.Days) :
+            "yesterday";
+        }
+        else if (timeSpan <= TimeSpan.FromDays(365))
+        {
+            result = timeSpan.Days > 30 ?
+            String.Format("about {0} months ago", timeSpan.Days / 30) :
+            "about a month ago";
+        }
+        else
+        {
+            result = timeSpan.Days > 365 ?
+            String.Format("about {0} years ago", timeSpan.Days / 365) :
+            "about a year ago";
+        }
+
+        return result;
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*<script src="~/js/Script.js"></script>*@
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css">
+    
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+    @*<script>
+    var __SUPPORTS_TIMING_API = typeof performance === 'object' && !!performance.mark && !!performance.measure && !!performance.getEntriesByType;
+    function __perfMark(name) { __SUPPORTS_TIMING_API && performance.mark(name); };
+    var __firstPostLoaded = false;
+    function __markFirstPostVisible() {
+    if (__firstPostLoaded) { return; }
+    __firstPostLoaded = true;
+    __perfMark("first_post_title_image_loaded");
+    }
+    var __firstCommentLoaded = false;
+    function __markFirstCommentVisible() {
+    if (__firstCommentLoaded) { return; }
+    __firstCommentLoaded = true;
+    __perfMark("first_comment_loaded");
+    }
+    </script>
+    <script>__perfMark('head_tag_start');</script>*@
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin-when-cross-origin">
+    <link rel="stylesheet" href="~/css/StyleSingleView.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/HarbergerTaxBannerPurchaseCTA.a569af9e4de228931f69_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/GovernanceUserPublicPointsDisplay.44ae0df768f0aee15f56_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/ChatMessageInput~MembershipPaywallPage~RichTextEditor.646485e3b6b3c00774a0_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/RichTextEditor.8f6061d28e58387b6ffa_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/BottomSheetUpsellWrapper.45e905d89131597b00ee_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/BottomCellWrapper.61d5a3a7c68a3068b2c4_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/EmailVerificationModals.5428cd864a6fbd694c2b_.css">
+    @* <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/ShortcutWrapper.890ced71e0ce5e711fad.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/HarbergerTaxBannerPurchaseCTA.8020a3984865788bc007.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/GovernanceUserPublicPointsDisplay.0b28d95b80d7f268bb65.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/vendors~ChatMessageInput~CommentRichUnit~FlairEdit~MembershipPaywallPage~PostCreation~PostRichUnit~R~9deab1a0.201e0a53b4d00907b96f.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/ChatMessageInput~MembershipPaywallPage~RichTextEditor.4beed0c79a9effa94009.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/RichTextEditor.e37a88aee85da97124c3.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/BottomSheetUpsellWrapper.4263cba37c6a2f6b4340.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/BottomCellWrapper.f10db69062cdf0473b4a.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/webvitals.f626f135e0d2366368b7.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/EmailVerificationModals.4e112765327b7b055760.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/vendors~Avatar~ChatPost~CollectiblesShowcaseUnit~MarketplaceClaimModal~MarketplaceInFeedUnit~NftProf~7d152600.6f19d2e4659dbfb6d084.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/RealtimeGQLSubscriptionAsync.c89c62e561b4816f488a.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/AuthorHovercard.47f1b329160f6f6cb3d9.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/CommentsPageNativeAd.1e43ac8e3119a774a0ad.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/GifTooltip.f2498ac245d345405cb6.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/GeneralGifsTooltip.35870537e3ef190c8c6f.js"></script>
+    <script charset="utf-8" src="https://www.redditstatic.com/desktop2x/PushNotifications.f95c2b0c5dd871339c66.js"></script>*@
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/AuthorHovercard.4710a5224ab146323625_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/CommentsPageNativeAd.40e4af471a0dcafc674c_.css">
+    <link rel="stylesheet" type="text/css" href="https://www.redditstatic.com/desktop2x/chunkCSS/GeneralGifsTooltip.c4b2d08e97b0ee368fae_.css">
+</head>
+<body>
+    
+    <div id="2x-container">
+        <style>
+            .panchal{
+                background:white;
+            }
+        </style>
+        <div class="_1VP69d9lk-Wk9zokOaylL  theme-beta" style="--background:#FFFFFF;--canvas:#DAE0E6">
+            <div tabindex="-1"></div>
+            <div class="hciOr5UGrnYrZxB11tX9s" id="SHORTCUT_FOCUSABLE_DIV" tabindex="-1">
+                <style>
+                    .subredditvars-r-indianboysontinder {
+                        --newCommunityTheme-actionIcon: #878A8C;
+                        --newCommunityTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newCommunityTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newCommunityTheme-actionIconShaded80: #6c6e70;
+                        --newCommunityTheme-actionIconTinted80: #9fa1a3;
+                        --newCommunityTheme-active: #0079D3;
+                        --newCommunityTheme-activeAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-activeAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-activeAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-activeLight60: #33a8ff;
+                        --newCommunityTheme-activeShaded80: #0060a8;
+                        --newCommunityTheme-activeShaded90: #006cbd;
+                        --newCommunityTheme-activeTinted05: #f2f8fc;
+                        --newCommunityTheme-backgroundImage: initial;
+                        --newCommunityTheme-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-backgroundColor: #33a8ff;
+                        --newCommunityTheme-banner-backgroundImage: initial;
+                        --newCommunityTheme-banner-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-communityNameFormat: slashtag;
+                        --newCommunityTheme-banner-height: 64;
+                        --newCommunityTheme-banner-iconColor: #0079D3;
+                        --newCommunityTheme-banner-iconDimensions-borderRadius: 24;
+                        --newCommunityTheme-banner-iconDimensions-customSize: 32;
+                        --newCommunityTheme-banner-iconDimensions-padding: 6;
+                        --newCommunityTheme-banner-iconDimensions-size: 24;
+                        --newCommunityTheme-banner-iconImage: url("https://styles.redditmedia.com/t5_fbjj3/styles/communityIcon_33p29xaf0sp61.png?width=256&v=enabled&s=ee5565dcc7209f54437fe68a83a9549a7d2e03b9");
+                        --newCommunityTheme-banner-lineHeight: 38;
+                        --newCommunityTheme-banner-positionedImage: initial;
+                        --newCommunityTheme-banner-positionedImageAlignment: left;
+                        --newCommunityTheme-banner-positionedImageHeight: 48;
+                        --newCommunityTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newCommunityTheme-body: #FFFFFF;
+                        --newCommunityTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newCommunityTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newCommunityTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newCommunityTheme-bodyFade: #FFFFFF00;
+                        --newCommunityTheme-bodyShaded80: #ccc;
+                        --newCommunityTheme-bodyText: #1c1c1c;
+                        --newCommunityTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newCommunityTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newCommunityTheme-bodyTextShaded20: #050505;
+                        --newCommunityTheme-bodyTextTinted20: #d1d1d1;
+                        --newCommunityTheme-bodyTinted50: #fff;
+                        --newCommunityTheme-bodyTinted80: #fff;
+                        --newCommunityTheme-button: #0079D3;
+                        --newCommunityTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newCommunityTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newCommunityTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newCommunityTheme-buttonShaded80: #0060a8;
+                        --newCommunityTheme-buttonTinted20: #cce4f6;
+                        --newCommunityTheme-buttonTinted50: #7fbce9;
+                        --newCommunityTheme-buttonTinted80: #3293db;
+                        --newCommunityTheme-canvas: #DAE0E6;
+                        --newCommunityTheme-canvasImgPosition: cover;
+                        --newCommunityTheme-canvasImgUrl: initial;
+                        --newCommunityTheme-checkbox: #000000;
+                        --newCommunityTheme-errorText: #FF0000;
+                        --newCommunityTheme-field: #F6F7F8;
+                        --newCommunityTheme-fieldFade: #F6F7F800;
+                        --newCommunityTheme-flair: #EDEFF1;
+                        --newCommunityTheme-highlight: #e5f1fa;
+                        --newCommunityTheme-inactive: #EDEFF1;
+                        --newCommunityTheme-invertFilter: invert(0);
+                        --newCommunityTheme-lightText: #FFFFFF;
+                        --newCommunityTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newCommunityTheme-line: #EDEFF1;
+                        --newCommunityTheme-lineShaded80: #bdbfc0;
+                        --newCommunityTheme-lineShaded90: #d5d7d8;
+                        --newCommunityTheme-lineShadedNinety: #d5d7d8;
+                        --newCommunityTheme-linkText: #0079D3;
+                        --newCommunityTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newCommunityTheme-linkTextShaded80: #0060a8;
+                        --newCommunityTheme-linkTextTinted80: #3293db;
+                        --newCommunityTheme-linkTextWithBody: #3f9ade;
+                        --newCommunityTheme-menu: #FFFFFF;
+                        --newCommunityTheme-menuActiveText: #0079D3;
+                        --newCommunityTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newCommunityTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newCommunityTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newCommunityTheme-menuInactiveText: #0079D3;
+                        --newCommunityTheme-metaText: #7c7c7c;
+                        --newCommunityTheme-monospaceColor: #FF006D;
+                        --newCommunityTheme-navBar-activeLink: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuCaret: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuLink: #0079D3;
+                        --newCommunityTheme-navBar-backgroundColor: #dbf0ff;
+                        --newCommunityTheme-navBar-backgroundImage: initial;
+                        --newCommunityTheme-navBar-hoverLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveSubmenuCaret: #33a8ff;
+                        --newCommunityTheme-navBar-inactiveSubmenuLink: #33a8ff;
+                        --newCommunityTheme-navBar-submenuBackgroundColor: #dbf0ff;
+                        --newCommunityTheme-navIcon: #1A1A1B;
+                        --newCommunityTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newCommunityTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newCommunityTheme-nsfwBlocking-color: #030303;
+                        --newCommunityTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newCommunityTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newCommunityTheme-orangeRed: #FF4500;
+                        --newCommunityTheme-pageHeader: #0079D3;
+                        --newCommunityTheme-placeholder: #d6d6d6;
+                        --newCommunityTheme-placeholderImage: initial;
+                        --newCommunityTheme-placeholderImagePosition: cover;
+                        --newCommunityTheme-post: #FFFFFF;
+                        --newCommunityTheme-postError: #ffe5e5;
+                        --newCommunityTheme-postFlairText: #1A1A1B;
+                        --newCommunityTheme-postIcon: #898989;
+                        --newCommunityTheme-postLine: #ccc;
+                        --newCommunityTheme-postLineShaded80: #a3a3a3;
+                        --newCommunityTheme-postLineShaded90: #b7b7b7;
+                        --newCommunityTheme-postTinted20: #fff;
+                        --newCommunityTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newCommunityTheme-primaryButtonShadedEighty: #0060a8;
+                        --newCommunityTheme-primaryButtonTintedEighty: #3293db;
+                        --newCommunityTheme-primaryButtonTintedFifty: #7fbce9;
+                        --newCommunityTheme-primaryButtonTintedSixty: #66aee4;
+                        --newCommunityTheme-report: #fff7e5;
+                        --newCommunityTheme-textTransparentizedEighty: rgba(26,26,27,0.2);
+                        --newCommunityTheme-titleText: #222222;
+                        --newCommunityTheme-voteIcons-downvoteActive: initial;
+                        --newCommunityTheme-voteIcons-downvoteInactive: initial;
+                        --newCommunityTheme-voteIcons-upvoteActive: initial;
+                        --newCommunityTheme-voteIcons-upvoteInactive: initial;
+                        --newCommunityTheme-voteText-base: #898989;
+                        --newCommunityTheme-voteText-downvote: #7193FF;
+                        --newCommunityTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newCommunityTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newCommunityTheme-voteText-upvote: #FF4500;
+                        --newCommunityTheme-voteText-upvoteShaded80: #cc3700;
+                        --newCommunityTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newCommunityTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newCommunityTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newCommunityTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColor: #0079D3;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(0,121,211,0.6);
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTitleColor: #FFFFFF;
+                        --newRedditTheme-actionIcon: #878A8C;
+                        --newRedditTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newRedditTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newRedditTheme-actionIconShaded80: #6c6e70;
+                        --newRedditTheme-actionIconTinted80: #9fa1a3;
+                        --newRedditTheme-active: #24A0ED;
+                        --newRedditTheme-activeAlpha10: rgba(36,160,237,0.1);
+                        --newRedditTheme-activeAlpha20: rgba(36,160,237,0.2);
+                        --newRedditTheme-activeAlpha50: rgba(36,160,237,0.5);
+                        --newRedditTheme-activeLight60: #42adf0;
+                        --newRedditTheme-activeShaded80: #1c80bd;
+                        --newRedditTheme-activeShaded90: #2090d5;
+                        --newRedditTheme-activeTinted05: #f4fafe;
+                        --newRedditTheme-banner-backgroundColor: #24A0ED;
+                        --newRedditTheme-banner-backgroundImage: initial;
+                        --newRedditTheme-banner-backgroundImagePosition: cover;
+                        --newRedditTheme-banner-communityNameFormat: slashtag;
+                        --newRedditTheme-banner-height: 64;
+                        --newRedditTheme-banner-iconColor: #24A0ED;
+                        --newRedditTheme-banner-iconDimensions-borderRadius: 24;
+                        --newRedditTheme-banner-iconDimensions-customSize: 32;
+                        --newRedditTheme-banner-iconDimensions-padding: 6;
+                        --newRedditTheme-banner-iconDimensions-size: 24;
+                        --newRedditTheme-banner-iconImage: initial;
+                        --newRedditTheme-banner-lineHeight: 38;
+                        --newRedditTheme-banner-positionedImage: initial;
+                        --newRedditTheme-banner-positionedImageAlignment: cover;
+                        --newRedditTheme-banner-positionedImageHeight: 48;
+                        --newRedditTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newRedditTheme-body: #FFFFFF;
+                        --newRedditTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newRedditTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newRedditTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newRedditTheme-bodyFade: #FFFFFF00;
+                        --newRedditTheme-bodyShaded80: #ccc;
+                        --newRedditTheme-bodyText: #1c1c1c;
+                        --newRedditTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newRedditTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newRedditTheme-bodyTextShaded20: #050505;
+                        --newRedditTheme-bodyTextTinted20: #d1d1d1;
+                        --newRedditTheme-bodyTinted50: #fff;
+                        --newRedditTheme-bodyTinted80: #fff;
+                        --newRedditTheme-button: #0079D3;
+                        --newRedditTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newRedditTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newRedditTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newRedditTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newRedditTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newRedditTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newRedditTheme-buttonShaded80: #0060a8;
+                        --newRedditTheme-buttonTinted20: #cce4f6;
+                        --newRedditTheme-buttonTinted50: #7fbce9;
+                        --newRedditTheme-buttonTinted80: #3293db;
+                        --newRedditTheme-canvas: #DAE0E6;
+                        --newRedditTheme-checkbox: #000000;
+                        --newRedditTheme-errorText: #FF0000;
+                        --newRedditTheme-field: #F6F7F8;
+                        --newRedditTheme-fieldFade: #F6F7F800;
+                        --newRedditTheme-flair: #EDEFF1;
+                        --newRedditTheme-highlight: #e9f5fd;
+                        --newRedditTheme-inactive: #EDEFF1;
+                        --newRedditTheme-invertFilter: invert(0);
+                        --newRedditTheme-lightText: #FFFFFF;
+                        --newRedditTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newRedditTheme-line: #EDEFF1;
+                        --newRedditTheme-lineShaded80: #bdbfc0;
+                        --newRedditTheme-lineShaded90: #d5d7d8;
+                        --newRedditTheme-linkText: #0079D3;
+                        --newRedditTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newRedditTheme-linkTextShaded80: #0060a8;
+                        --newRedditTheme-linkTextTinted80: #3293db;
+                        --newRedditTheme-linkTextWithBody: #3f9ade;
+                        --newRedditTheme-menu: #FFFFFF;
+                        --newRedditTheme-menuActiveText: #0079D3;
+                        --newRedditTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newRedditTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newRedditTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newRedditTheme-menuInactiveText: #0079D3;
+                        --newRedditTheme-metaText: #7c7c7c;
+                        --newRedditTheme-metaTextAlpha50: rgba(120,124,126,0.5);
+                        --newRedditTheme-metaTextShaded80: #606364;
+                        --newRedditTheme-monospaceColor: #FF006D;
+                        --newRedditTheme-navBar-activeLink: #E9F5FD;
+                        --newRedditTheme-navBar-activeSubmenuCaret: #24A0ED;
+                        --newRedditTheme-navBar-activeSubmenuLink: #24A0ED;
+                        --newRedditTheme-navBar-backgroundColor: #24A0ED;
+                        --newRedditTheme-navBar-backgroundImage: initial;
+                        --newRedditTheme-navBar-hoverLink: #E9F5FD;
+                        --newRedditTheme-navBar-inactiveLink: #EDEFF1;
+                        --newRedditTheme-navBar-inactiveSubmenuCaret: #42adf0;
+                        --newRedditTheme-navBar-inactiveSubmenuLink: #42adf0;
+                        --newRedditTheme-navBar-submenuBackgroundColor: #def1fc;
+                        --newRedditTheme-navIcon: #1A1A1B;
+                        --newRedditTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newRedditTheme-nsfw: #ff585b;
+                        --newRedditTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newRedditTheme-nsfwBlocking-color: #030303;
+                        --newRedditTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newRedditTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newRedditTheme-orangeRed: #FF4500;
+                        --newRedditTheme-pageHeader: #0079D3;
+                        --newRedditTheme-placeholder: #d6d6d6;
+                        --newRedditTheme-post: #FFFFFF;
+                        --newRedditTheme-postError: #ffe5e5;
+                        --newRedditTheme-postFlairText: #1A1A1B;
+                        --newRedditTheme-postIcon: #898989;
+                        --newRedditTheme-postLine: #ccc;
+                        --newRedditTheme-postLineShaded80: #a3a3a3;
+                        --newRedditTheme-postLineShaded90: #b7b7b7;
+                        --newRedditTheme-postTinted20: #fff;
+                        --newRedditTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newRedditTheme-quarantine: #ffb000;
+                        --newRedditTheme-report: #fff7e5;
+                        --newRedditTheme-search-syntaxHighlightBackgroundColor: #E9F5FD;
+                        --newRedditTheme-search-syntaxHighlightColor: #1A1A1A;
+                        --newRedditTheme-titleText: #1A1A1B;
+                        --newRedditTheme-upsell-appleIcon: #000000;
+                        --newRedditTheme-upsell-ssoButtonBorderColor: #D3D6DA;
+                        --newRedditTheme-upsell-ssoButtonTextColor: #3D4043;
+                        --newRedditTheme-voteIcons-downvoteActive: initial;
+                        --newRedditTheme-voteIcons-downvoteInactive: initial;
+                        --newRedditTheme-voteIcons-upvoteActive: initial;
+                        --newRedditTheme-voteIcons-upvoteInactive: initial;
+                        --newRedditTheme-voteText-base: #898989;
+                        --newRedditTheme-voteText-downvote: #7193FF;
+                        --newRedditTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newRedditTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newRedditTheme-voteText-upvote: #FF4500;
+                        --newRedditTheme-voteText-upvoteShaded80: #cc3700;
+                        --newRedditTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newRedditTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newRedditTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(255,255,255,0.6);
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newRedditTheme-widgetColors-sidebarWidgetTitleColor: #1A1A1B;
+                        --subredditContext-isCommentsPage: initial;
+                        --subredditContext-isOverlay: initial;
+                    }</style>
+                @Html.Partial("_header")
+                <style>
+                    .subredditvars-r-indianboysontinder {
+                        --newCommunityTheme-actionIcon: #878A8C;
+                        --newCommunityTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newCommunityTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newCommunityTheme-actionIconShaded80: #6c6e70;
+                        --newCommunityTheme-actionIconTinted80: #9fa1a3;
+                        --newCommunityTheme-active: #0079D3;
+                        --newCommunityTheme-activeAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-activeAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-activeAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-activeLight60: #33a8ff;
+                        --newCommunityTheme-activeShaded80: #0060a8;
+                        --newCommunityTheme-activeShaded90: #006cbd;
+                        --newCommunityTheme-activeTinted05: #f2f8fc;
+                        --newCommunityTheme-backgroundImage: initial;
+                        --newCommunityTheme-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-backgroundColor: #33a8ff;
+                        --newCommunityTheme-banner-backgroundImage: initial;
+                        --newCommunityTheme-banner-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-communityNameFormat: slashtag;
+                        --newCommunityTheme-banner-height: 64;
+                        --newCommunityTheme-banner-iconColor: #0079D3;
+                        --newCommunityTheme-banner-iconDimensions-borderRadius: 24;
+                        --newCommunityTheme-banner-iconDimensions-customSize: 32;
+                        --newCommunityTheme-banner-iconDimensions-padding: 6;
+                        --newCommunityTheme-banner-iconDimensions-size: 24;
+                        --newCommunityTheme-banner-iconImage: url("https://styles.redditmedia.com/t5_fbjj3/styles/communityIcon_33p29xaf0sp61.png?width=256&v=enabled&s=ee5565dcc7209f54437fe68a83a9549a7d2e03b9");
+                        --newCommunityTheme-banner-lineHeight: 38;
+                        --newCommunityTheme-banner-positionedImage: initial;
+                        --newCommunityTheme-banner-positionedImageAlignment: left;
+                        --newCommunityTheme-banner-positionedImageHeight: 48;
+                        --newCommunityTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newCommunityTheme-body: #FFFFFF;
+                        --newCommunityTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newCommunityTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newCommunityTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newCommunityTheme-bodyFade: #FFFFFF00;
+                        --newCommunityTheme-bodyShaded80: #ccc;
+                        --newCommunityTheme-bodyText: #1c1c1c;
+                        --newCommunityTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newCommunityTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newCommunityTheme-bodyTextShaded20: #050505;
+                        --newCommunityTheme-bodyTextTinted20: #d1d1d1;
+                        --newCommunityTheme-bodyTinted50: #fff;
+                        --newCommunityTheme-bodyTinted80: #fff;
+                        --newCommunityTheme-button: #0079D3;
+                        --newCommunityTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newCommunityTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newCommunityTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newCommunityTheme-buttonShaded80: #0060a8;
+                        --newCommunityTheme-buttonTinted20: #cce4f6;
+                        --newCommunityTheme-buttonTinted50: #7fbce9;
+                        --newCommunityTheme-buttonTinted80: #3293db;
+                        --newCommunityTheme-canvas: #DAE0E6;
+                        --newCommunityTheme-canvasImgPosition: cover;
+                        --newCommunityTheme-canvasImgUrl: initial;
+                        --newCommunityTheme-checkbox: #000000;
+                        --newCommunityTheme-errorText: #FF0000;
+                        --newCommunityTheme-field: #F6F7F8;
+                        --newCommunityTheme-fieldFade: #F6F7F800;
+                        --newCommunityTheme-flair: #EDEFF1;
+                        --newCommunityTheme-highlight: #e5f1fa;
+                        --newCommunityTheme-inactive: #EDEFF1;
+                        --newCommunityTheme-invertFilter: invert(0);
+                        --newCommunityTheme-lightText: #FFFFFF;
+                        --newCommunityTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newCommunityTheme-line: #EDEFF1;
+                        --newCommunityTheme-lineShaded80: #bdbfc0;
+                        --newCommunityTheme-lineShaded90: #d5d7d8;
+                        --newCommunityTheme-lineShadedNinety: #d5d7d8;
+                        --newCommunityTheme-linkText: #0079D3;
+                        --newCommunityTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newCommunityTheme-linkTextShaded80: #0060a8;
+                        --newCommunityTheme-linkTextTinted80: #3293db;
+                        --newCommunityTheme-linkTextWithBody: #3f9ade;
+                        --newCommunityTheme-menu: #FFFFFF;
+                        --newCommunityTheme-menuActiveText: #0079D3;
+                        --newCommunityTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newCommunityTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newCommunityTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newCommunityTheme-menuInactiveText: #0079D3;
+                        --newCommunityTheme-metaText: #7c7c7c;
+                        --newCommunityTheme-monospaceColor: #FF006D;
+                        --newCommunityTheme-navBar-activeLink: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuCaret: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuLink: #0079D3;
+                        --newCommunityTheme-navBar-backgroundColor: #dbf0ff;
+                        --newCommunityTheme-navBar-backgroundImage: initial;
+                        --newCommunityTheme-navBar-hoverLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveSubmenuCaret: #33a8ff;
+                        --newCommunityTheme-navBar-inactiveSubmenuLink: #33a8ff;
+                        --newCommunityTheme-navBar-submenuBackgroundColor: #dbf0ff;
+                        --newCommunityTheme-navIcon: #1A1A1B;
+                        --newCommunityTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newCommunityTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newCommunityTheme-nsfwBlocking-color: #030303;
+                        --newCommunityTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newCommunityTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newCommunityTheme-orangeRed: #FF4500;
+                        --newCommunityTheme-pageHeader: #0079D3;
+                        --newCommunityTheme-placeholder: #d6d6d6;
+                        --newCommunityTheme-placeholderImage: initial;
+                        --newCommunityTheme-placeholderImagePosition: cover;
+                        --newCommunityTheme-post: #FFFFFF;
+                        --newCommunityTheme-postError: #ffe5e5;
+                        --newCommunityTheme-postFlairText: #1A1A1B;
+                        --newCommunityTheme-postIcon: #898989;
+                        --newCommunityTheme-postLine: #ccc;
+                        --newCommunityTheme-postLineShaded80: #a3a3a3;
+                        --newCommunityTheme-postLineShaded90: #b7b7b7;
+                        --newCommunityTheme-postTinted20: #fff;
+                        --newCommunityTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newCommunityTheme-primaryButtonShadedEighty: #0060a8;
+                        --newCommunityTheme-primaryButtonTintedEighty: #3293db;
+                        --newCommunityTheme-primaryButtonTintedFifty: #7fbce9;
+                        --newCommunityTheme-primaryButtonTintedSixty: #66aee4;
+                        --newCommunityTheme-report: #fff7e5;
+                        --newCommunityTheme-textTransparentizedEighty: rgba(26,26,27,0.2);
+                        --newCommunityTheme-titleText: #222222;
+                        --newCommunityTheme-voteIcons-downvoteActive: initial;
+                        --newCommunityTheme-voteIcons-downvoteInactive: initial;
+                        --newCommunityTheme-voteIcons-upvoteActive: initial;
+                        --newCommunityTheme-voteIcons-upvoteInactive: initial;
+                        --newCommunityTheme-voteText-base: #898989;
+                        --newCommunityTheme-voteText-downvote: #7193FF;
+                        --newCommunityTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newCommunityTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newCommunityTheme-voteText-upvote: #FF4500;
+                        --newCommunityTheme-voteText-upvoteShaded80: #cc3700;
+                        --newCommunityTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newCommunityTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newCommunityTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newCommunityTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColor: #0079D3;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(0,121,211,0.6);
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTitleColor: #FFFFFF;
+                        --newRedditTheme-actionIcon: #878A8C;
+                        --newRedditTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newRedditTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newRedditTheme-actionIconShaded80: #6c6e70;
+                        --newRedditTheme-actionIconTinted80: #9fa1a3;
+                        --newRedditTheme-active: #24A0ED;
+                        --newRedditTheme-activeAlpha10: rgba(36,160,237,0.1);
+                        --newRedditTheme-activeAlpha20: rgba(36,160,237,0.2);
+                        --newRedditTheme-activeAlpha50: rgba(36,160,237,0.5);
+                        --newRedditTheme-activeLight60: #42adf0;
+                        --newRedditTheme-activeShaded80: #1c80bd;
+                        --newRedditTheme-activeShaded90: #2090d5;
+                        --newRedditTheme-activeTinted05: #f4fafe;
+                        --newRedditTheme-banner-backgroundColor: #24A0ED;
+                        --newRedditTheme-banner-backgroundImage: initial;
+                        --newRedditTheme-banner-backgroundImagePosition: cover;
+                        --newRedditTheme-banner-communityNameFormat: slashtag;
+                        --newRedditTheme-banner-height: 64;
+                        --newRedditTheme-banner-iconColor: #24A0ED;
+                        --newRedditTheme-banner-iconDimensions-borderRadius: 24;
+                        --newRedditTheme-banner-iconDimensions-customSize: 32;
+                        --newRedditTheme-banner-iconDimensions-padding: 6;
+                        --newRedditTheme-banner-iconDimensions-size: 24;
+                        --newRedditTheme-banner-iconImage: initial;
+                        --newRedditTheme-banner-lineHeight: 38;
+                        --newRedditTheme-banner-positionedImage: initial;
+                        --newRedditTheme-banner-positionedImageAlignment: cover;
+                        --newRedditTheme-banner-positionedImageHeight: 48;
+                        --newRedditTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newRedditTheme-body: #FFFFFF;
+                        --newRedditTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newRedditTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newRedditTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newRedditTheme-bodyFade: #FFFFFF00;
+                        --newRedditTheme-bodyShaded80: #ccc;
+                        --newRedditTheme-bodyText: #1c1c1c;
+                        --newRedditTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newRedditTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newRedditTheme-bodyTextShaded20: #050505;
+                        --newRedditTheme-bodyTextTinted20: #d1d1d1;
+                        --newRedditTheme-bodyTinted50: #fff;
+                        --newRedditTheme-bodyTinted80: #fff;
+                        --newRedditTheme-button: #0079D3;
+                        --newRedditTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newRedditTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newRedditTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newRedditTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newRedditTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newRedditTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newRedditTheme-buttonShaded80: #0060a8;
+                        --newRedditTheme-buttonTinted20: #cce4f6;
+                        --newRedditTheme-buttonTinted50: #7fbce9;
+                        --newRedditTheme-buttonTinted80: #3293db;
+                        --newRedditTheme-canvas: #DAE0E6;
+                        --newRedditTheme-checkbox: #000000;
+                        --newRedditTheme-errorText: #FF0000;
+                        --newRedditTheme-field: #F6F7F8;
+                        --newRedditTheme-fieldFade: #F6F7F800;
+                        --newRedditTheme-flair: #EDEFF1;
+                        --newRedditTheme-highlight: #e9f5fd;
+                        --newRedditTheme-inactive: #EDEFF1;
+                        --newRedditTheme-invertFilter: invert(0);
+                        --newRedditTheme-lightText: #FFFFFF;
+                        --newRedditTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newRedditTheme-line: #EDEFF1;
+                        --newRedditTheme-lineShaded80: #bdbfc0;
+                        --newRedditTheme-lineShaded90: #d5d7d8;
+                        --newRedditTheme-linkText: #0079D3;
+                        --newRedditTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newRedditTheme-linkTextShaded80: #0060a8;
+                        --newRedditTheme-linkTextTinted80: #3293db;
+                        --newRedditTheme-linkTextWithBody: #3f9ade;
+                        --newRedditTheme-menu: #FFFFFF;
+                        --newRedditTheme-menuActiveText: #0079D3;
+                        --newRedditTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newRedditTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newRedditTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newRedditTheme-menuInactiveText: #0079D3;
+                        --newRedditTheme-metaText: #7c7c7c;
+                        --newRedditTheme-metaTextAlpha50: rgba(120,124,126,0.5);
+                        --newRedditTheme-metaTextShaded80: #606364;
+                        --newRedditTheme-monospaceColor: #FF006D;
+                        --newRedditTheme-navBar-activeLink: #E9F5FD;
+                        --newRedditTheme-navBar-activeSubmenuCaret: #24A0ED;
+                        --newRedditTheme-navBar-activeSubmenuLink: #24A0ED;
+                        --newRedditTheme-navBar-backgroundColor: #24A0ED;
+                        --newRedditTheme-navBar-backgroundImage: initial;
+                        --newRedditTheme-navBar-hoverLink: #E9F5FD;
+                        --newRedditTheme-navBar-inactiveLink: #EDEFF1;
+                        --newRedditTheme-navBar-inactiveSubmenuCaret: #42adf0;
+                        --newRedditTheme-navBar-inactiveSubmenuLink: #42adf0;
+                        --newRedditTheme-navBar-submenuBackgroundColor: #def1fc;
+                        --newRedditTheme-navIcon: #1A1A1B;
+                        --newRedditTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newRedditTheme-nsfw: #ff585b;
+                        --newRedditTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newRedditTheme-nsfwBlocking-color: #030303;
+                        --newRedditTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newRedditTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newRedditTheme-orangeRed: #FF4500;
+                        --newRedditTheme-pageHeader: #0079D3;
+                        --newRedditTheme-placeholder: #d6d6d6;
+                        --newRedditTheme-post: #FFFFFF;
+                        --newRedditTheme-postError: #ffe5e5;
+                        --newRedditTheme-postFlairText: #1A1A1B;
+                        --newRedditTheme-postIcon: #898989;
+                        --newRedditTheme-postLine: #ccc;
+                        --newRedditTheme-postLineShaded80: #a3a3a3;
+                        --newRedditTheme-postLineShaded90: #b7b7b7;
+                        --newRedditTheme-postTinted20: #fff;
+                        --newRedditTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newRedditTheme-quarantine: #ffb000;
+                        --newRedditTheme-report: #fff7e5;
+                        --newRedditTheme-search-syntaxHighlightBackgroundColor: #E9F5FD;
+                        --newRedditTheme-search-syntaxHighlightColor: #1A1A1A;
+                        --newRedditTheme-titleText: #1A1A1B;
+                        --newRedditTheme-upsell-appleIcon: #000000;
+                        --newRedditTheme-upsell-ssoButtonBorderColor: #D3D6DA;
+                        --newRedditTheme-upsell-ssoButtonTextColor: #3D4043;
+                        --newRedditTheme-voteIcons-downvoteActive: initial;
+                        --newRedditTheme-voteIcons-downvoteInactive: initial;
+                        --newRedditTheme-voteIcons-upvoteActive: initial;
+                        --newRedditTheme-voteIcons-upvoteInactive: initial;
+                        --newRedditTheme-voteText-base: #898989;
+                        --newRedditTheme-voteText-downvote: #7193FF;
+                        --newRedditTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newRedditTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newRedditTheme-voteText-upvote: #FF4500;
+                        --newRedditTheme-voteText-upvoteShaded80: #cc3700;
+                        --newRedditTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newRedditTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newRedditTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(255,255,255,0.6);
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newRedditTheme-widgetColors-sidebarWidgetTitleColor: #1A1A1B;
+                        --subredditContext-isOverlay: initial;
+                    }</style>
+                <div class="subredditvars-r-indianboysontinder">
+                    <div class="_1nxEQl5D2Bx2jxDILRHemb   " id="AppRouter-main-content" aria-hidden="false">
+                        <div>
+                            <div class="qYj03fU5CXf5t2Fc5iSvg ListingLayout-outerContainer ">
+                                <div class="_2wxsLGNmMLx6sEMLJyn2o9 ListingLayout-backgroundContainer" style="--pseudo-before-background:#DAE0E6"></div>
+                                <div class="_3ozFtOe6WpJEMUtxDOIvtU">
+                                    <span style="background:#33a8ff;filter:none;height:64px" class="_2L5G9B5yaoqW3IegiYN-FL">
+                                        <a class="_36MHhLdcmnzdWt0OMdNlwd" href="/r/IndianBoysOnTinder/">
+                                            <div style="max-width:1200px" class="_2RkQc9Gtsq3cPQNZLYv4zc">
+                                                <div class="_2ejRlONMr5WoDRgyd4GRyM">
+                                                    <div style="background-image:url(https://styles.redditmedia.com/t5_fbjj3/styles/communityIcon_33p29xaf0sp61.png?width=256&amp;v=enabled&amp;s=ee5565dcc7209f54437fe68a83a9549a7d2e03b9);border-radius:24px;height:36px;width:36px" class="_3rnV85Ep3gNSeNzlSEJ0eC"></div>
+                                                    <span style="padding-top:4px" class="_2wzi-W7JiZ7A6U6aFvfvSR">
+                                                        @Model.Post.Community.Name
+                                                    </span>
+                                                </div>
+                                                <div style="left:-8px;height:48px" class="_26j3FxU4jTfjqi8m96HMmI _26j3FxU4jTfjqi8m96HMmI "></div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                    <div class="_1gVVmSnHZpkUgVShsn7-ua" style="position:static;background:#dbf0ff">
+                                        <div class="_1_TJAX-8zAT3vVN1Iz7cys" style="max-width:1200px">
+                                            <div><a class="_1O30sSXmfkKMRZqSaESf0S _1YpJV_aDQqujwuofx9-eAX " href="/r/IndianBoysOnTinder/">Posts</a></div>
+                                        </div>
+                                    </div>
+                                    <div style="max-width:1600px"></div>
+                                    <div class="_31N0dvxfpsO6Ur5AKx4O5d" style="max-width:1600px">
+                                        <div class="_1OVBBWLtHoSPfGCRaPzpTf _3nSp9cdBpqL13CqjdMr2L_ _2udhMC-jldHp_EpAuBeSR1 PaJBYLqPf_Gie2aZntVQ7 _2OVNlZuUd8L9v0yVECZ2iA">
+                                            <span></span>
+                                            <div class="_2X4xugrTQ5e3TVxPPEHqGh ">
+                                                <div class="_3LO_LEpMLN8-uaedpg6nl4 _3JKnqeBKw2wp7eHzFXNXSe">
+                                                    <button class="cmR5BF4NpBUm3DBMZCmJS _1cubpGNEaCAVnpJl1KBPcO ">
+                                                        <div class="_1W1pLIfaIb8rYU6YeTdAk6">
+                                                            <img class="_1H6Meh6ZAemKxOJDOEasfK _2w3IfaLQEQVcXSaXJI2vBR " src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png" style="background-color:#2EA1EA"><img class="_1H6Meh6ZAemKxOJDOEasfK _2w3IfaLQEQVcXSaXJI2vBR " src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_4.png" style="background-color:#F9862D">
+                                                            <div class="_30vlMmCcnqKnXP1t-fzm0e">
+                                                                <img class="_1H6Meh6ZAemKxOJDOEasfK _2w3IfaLQEQVcXSaXJI2vBR " src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png" style="background-color:#297ACA">
+                                                                <svg class="_1g3Xfh9mljLHWv24M9A3Rw _2dn5Ncenn0BSD4tCSmxQhA GpWjjkZl5_kV4yZYWBaT2" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" width="12" height="12">
+                                                                    <circle cx="6" cy="6" r="4"></circle>
+                                                                    <path class="_3SlBAJb2MbUHwgBZFH8eL7 _1R_toh-B3KDXQd6yRXNIE7  " fill-rule="evenodd" clip-rule="evenodd" d="M12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6ZM6 10C8.20914 10 10 8.20914 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10Z"></path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <span class="_2nAeJnoRM4DyyVYoJhvMc4 ">1 new comment</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div tabindex="0"></div>
+                                            <div class="uI_hDmU5GSiudtABRz_37 ">
+                                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _2rszc84L136gWQrkwH6IaM  Post t3_13bd40o " data-testid="post-container" id="t3_13bd40o" tabindex="-1" data-adclicklocation="background">
+                                                    <div data-test-id="post-content">
+                                                        <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_13bd40o">
+                                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_13bd40o"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo _2iiIcja5xIjg-5sI4ECvcV" style="color:#1A1A1B"><span></span><span id="vote_t3_13bd40o_count_anim"></span>298</div>
+                                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                                    <span style="color:#787C7E" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                        <div id="UserInfoTooltip--t3_13bd40o"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/home/userdetail?id=@Model.Post.UserId" style="color: rgb(120, 124, 126);">u/@Model.Post.User.Fname</a></div>
+                                                                    </div>
+                                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color:#787C7E">@MyFunction((DateTime)Model.Post.CreatedDate)</span>
+                                                                </div>
+                                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                                            </div>
+@*                                                            <button class="_3KTYozwt91D81Yub-OQ4S3"><i class="SDzveG4fJf98RLE5vll2w icon icon-notification" aria-label="Follow post to stay updated"></i></button>
+*@                                                        </div>
+                                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _2v9pwVh0VUYrmhoMv1tHPm t3_13bd40o" data-adclicklocation="title">
+                                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                                <div class="_2SdHzo12ISmrC8H86TgSCp _29WrubtjAcKqzJSPdQqQ4h " style="--posttitletextcolor:#1A1A1B">
+                                                                    <h1 class="_eYtD2XCVieq6emjKBH3m">@Model.Post.Title</h1>
+                                                                </div>
+                                                            </div>
+                                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                                            </div>
+                                                            <style>
+                                                                .t3_13bd40o._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                                }
+                                                            </style>
+                                                        </div>
+                                                        <div class="_1NSbknF8ucHV2abfCZw2Z1 ">
+                                                            <div class="_3Oa0THmZ3f5iZXAQ0hBJ0k media-element  " style="margin:0 auto;margin-right:1rem;">
+                                                                <a href="~/img/@Model.Post.FileName" target="_blank" rel="noopener noreferrer" class="_3m20hIKOhTTeMgPnfMbVNN">
+                                                                    @if (@Model.Post.FileName.Contains(".mp4"))
+                                                                    {
+                                                                        <video style="max-height:14rem;max-width:37rem;" controls>
+                                                                            <source src="~/img/@Model.Post.FileName" type="video/mp4">
+
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        <img alt="r/IndianBoysOnTinder - Dude wanna split the tip👀🤦" class="_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image _1XWObl-3b9tPy64oaG6fax" src="~/img/@Model.Post.FileName" style="max-height:700px" />
+                                                                    }
+                                                                </a>
+                                                            </div>
+                                                            <h1 style="margin-top:1rem; color:black;">@Model.Post.Description</h1>
+                                                        </div>
+                                                        <div class="_1Bdk-WLPvP2xHwSSQ3qsHq">
+                                                            <div class="_292iotee39Lmt0MkQZ2hPV RichTextJSON-root"></div>
+                                                        </div>
+                                                        <div class="_1hwEKkB_38tIoal6fcdrt9">
+                                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                                <div class="_1UoeAeSRhOKSNdY_h3iS1O _3m17ICJgx45k_z-t82iVuO _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_13bd40o_count_anim"></span>@Model.Feedbacks.Count comments</span></div>
+                                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_13bd40o"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_13bd40o-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_13bd40o-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                                </div>
+                                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                                            </div>
+                                                            <span></span><span></span><span></span>
+                                                            <div class="_3wvjcIArtO7kKPJabZfZ9S _1c98ixuh4QUWO9ERiFID3p">
+                                                                42 people here
+                                                                <div class="_1W1pLIfaIb8rYU6YeTdAk6 RtAsN7UrR7u51W5kaOXvp"><img class="_1H6Meh6ZAemKxOJDOEasfK _1JRtpiobR4jYtbw-xx1tPO" src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png" style="background-color: rgb(46, 161, 234);"><img class="_1H6Meh6ZAemKxOJDOEasfK _1JRtpiobR4jYtbw-xx1tPO" src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png" style="background-color: rgb(150, 222, 80);"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="Blank t3_z=gAAAAABkWLhNTB78D36qTreb-41gen4IXhzMfyOWUPCQ2GyE8zBKu8ifY2X8XlxLLcfIUAG0eeQK8gVmZqjlN9rqlsfSLqeXdcO6db-wt3pRXODX_nmt26q5_7-Vl7iPz95LGWojQ5yZcTbXTTQIo0oXCTYNqz_2vuE8k6TY-eZTd8JV2i2t5OBcqhtjHKToD5KkZIdu7z-Q"></div>
+                                                </div>
+                                                <div class="_1r4smTyOEZFO91uFIdWW6T aUM8DQ_Nz5wL0EJc_wte6">
+                                                    <div class="_2kZkQ13N-kvhDEJOBd1S1I">
+                                                        @{
+                                                            var lId = Context.Session.GetInt32("Id");
+                                                            var lName = Context.Session.GetString("name");
+                                                        }
+                                                        @if(lId != null){
+
+                                                        <span class="_2ucWAzao-GLL6qRJ4USwVJ">Comment as 
+
+                                                            <a class="_23wugcdiaj44hdfugIAlnX " href="/home/userdetail?id=@lId">@lName</a>
+                                                            </span> 
+                                                        }
+                                                        else{
+                                                            <span style="font-weight:600;" class="_2ucWAzao-GLL6qRJ4USwVJ">Comment
+
+                                                            </span>
+
+                                                        }
+                                                            </div>
+                                                    <div class="" style="left: 33px;">
+                                                        <div class="_3YZ-jFfccqhepgq1dDuLEv">
+                                                            <div style="border:none;" class="_3MknXZVbkWU8JL9XGlzASi _3wl1bRnSzxHkKJfvqakrNI _1UhKfcyzvaWRtDdXZmzg6D ">
+                                                                <div>
+                                                                    <div class="tVQ1dB4n0mAWdcQNxFq-K "></div>
+                                                                </div>
+                                                                <div class="_2baJGEALPiEMZpWB2iWQs7 " data-test-id="comment-submission-form-richtext">
+                                                                    <style>
+                                                                        .public-DraftStyleDefault-block[data-offset-key="3cc8e8_initial-0-0"]::after {
+                                                                            bottom: 0;
+                                                                            color: var(--newCommunityTheme-actionIcon);
+                                                                            content: 'What are your thoughts?';
+                                                                            cursor: text;
+                                                                            left: 0;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                        }
+                                                                    </style>
+                                                                    <div class="_13Sj3UMDKkCCJTq88berCB ">
+                                                                        <div>
+                                                                            <form asp-controller="home" asp-action="comment" class="d-flex flex-column">
+                                                                                <textarea name="text" rows="5" style="color:black;background-color:white;width:100%;" class="form-group">
+
+                                                                                    </textarea>
+                                                                                <input type="hidden" name="id" value="@Model.Post.Id" />
+                                                                                <input style="width:6rem;align-self:flex-end;margin-top:1rem;" class="btn btn-primary" type="submit" value="Submit" />
+                                                                            </form>
+                                                                            @*<div id="editor" style="color:black;"></div>
+                                                                            <script>
+                                                                            ClassicEditor.create(document.querySelector('#editor'), {
+                                                                            fontColor: {
+                                                                            colors: [
+                                                                            {
+                                                                            color: 'hsl(0, 0%, 0%)',
+                                                                            label: 'Black'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(0, 0%, 30%)',
+                                                                            label: 'Dim grey'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(0, 0%, 60%)',
+                                                                            label: 'Grey'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(0, 0%, 90%)',
+                                                                            label: 'Light grey'
+                                                                            },
+
+                                                                            // More colors.
+                                                                            // ...
+                                                                            ]
+                                                                            },
+                                                                            fontBackgroundColor: {
+                                                                            colors: [
+                                                                            {
+                                                                            color: 'hsl(0, 75%, 60%)',
+                                                                            label: 'Red'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(30, 75%, 60%)',
+                                                                            label: 'Orange'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(60, 75%, 60%)',
+                                                                            label: 'Yellow'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(90, 75%, 60%)',
+                                                                            label: 'Light green'
+                                                                            },
+                                                                            {
+                                                                            color: 'hsl(120, 75%, 60%)',
+                                                                            label: 'Green'
+                                                                            },
+                                                                            // More colors.
+                                                                            // ...
+                                                                            ]
+                                                                            }
+                                                                            })
+                                                                            .catch(error => {
+                                                                            console.error(error)
+                                                                            });
+                                                                            </script>*@
+                                                                            @*<div class="DraftEditor-root">
+                                                                            <div class="DraftEditor-editorContainer">
+                                                                            <div class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="true" style="outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;">
+                                                                            <div data-contents="true">
+                                                                            <div data-offset-key="3cc8e8_initial-0-0" class="_3LuG0YVLLHE2azRNVaKz7O">
+                                                                            <div class="" data-block="true" data-editor="3cc8e8" data-offset-key="3cc8e8_initial-0-0">
+                                                                            <div data-offset-key="3cc8e8_initial-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"><span data-offset-key="3cc8e8_initial-0-0"><br data-text="true"></span></div>
+                                                                            </div>
+                                                                            </div>
+                                                                            </div>
+                                                                            </div>
+                                                                            </div>
+                                                                            </div>*@
+                                                                        </div>
+                                                                        <div class="tVQ1dB4n0mAWdcQNxFq-K _1z9S1KmnM79xn-UA0FnbP6 "></div>
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="_17TqawK-44tH0psnHPIhzS RQTXfVRnnTF5ont3w58rx  ">
+                                                                <div class="_3SNMf5ZJL_5F1qxcZkD0Cp"><button role="button" tabindex="0" type="submit" disabled="" class="_22S4OsoDdOqiM-hPTeOURa _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts _3uJP0daPEH2plzVEYyTdaH ">Comment</button></div>
+                                                                <div class="_2YcMhGs5-uIg9Fj4a9J2Xr">
+                                                                <div class="_1wi_3uF8fUynqe5reIop-G">
+                                                                <div class="_3oLr47tuKGv2mNpavCZ2X0">
+                                                                <span>
+                                                                <div class="_6E4bLu7N3_WO5HyAtaJx8">
+                                                                <button role="button" tabindex="-1" aria-label="Add GIF" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-gif_post"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 _8fNGSBGvr1Ds8PbrsUGzN">Add GIF</div>
+                                                                </div>
+                                                                </button>
+                                                                <button role="button" tabindex="-1" aria-label="Add an image" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-image_post"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 _8fNGSBGvr1Ds8PbrsUGzN">Add an image</div>
+                                                                </div>
+                                                                <input multiple="" type="file" accept="image/gif" class="_2keaDnXIlu9Yq2y-cC8zgu">
+                                                                </button>
+                                                                </div>
+                                                                </span>
+                                                                <span>
+                                                                <div class="_1_GKN8UW8t3pCAZhMgZOoL"></div>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Bold" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-bold"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Bold</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Italics" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-italic"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Italics</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Link" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-link_post"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Link</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Strikethrough" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-strikethrough"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Strikethrough</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Inline Code" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-code_inline"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Inline Code</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Superscript" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-superscript"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Superscript</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Spoiler" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-spoiler"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Spoiler</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span>
+                                                                <div class="_1_GKN8UW8t3pCAZhMgZOoL"></div>
+                                                                </span>
+                                                                <span>
+                                                                <button role="button" tabindex="-1" aria-label="Heading" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-text_size"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Heading</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <button role="button" tabindex="-1" aria-label="Bulleted List" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-list_bulleted"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Bulleted List</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <button role="button" tabindex="-1" aria-label="Numbered List" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-list_numbered"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Numbered List</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <button role="button" tabindex="-1" aria-label="Quote Block" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-quote"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Quote Block</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <button role="button" tabindex="-1" aria-label="Code Block" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-code_block"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Code Block</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <div class="_1_GKN8UW8t3pCAZhMgZOoL"></div>
+                                                                </span>
+                                                                <span class="_2x_bJPl7Q970NCRxOS36QB">
+                                                                <button role="button" tabindex="-1" aria-label="Table" aria-selected="false" class="_2lAJkFZXhr5kbH7YF-sYFf _1H0LLEwUP5ys6cgxr9KhMa _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m">
+                                                                <i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-table"></i>
+                                                                <div class="Nb7NCPTlQuxN_WDPUg5Q2">
+                                                                <div class="ki2VbfBhU-qxg1S6VyET6 dMXy0l6Saub8-fPDkQvGC _8fNGSBGvr1Ds8PbrsUGzN">Table</div>
+                                                                </div>
+                                                                </button>
+                                                                </span>
+                                                                <div class="_3nQ7w1VIzZvzFawddOYgBC"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="Comment--Overflow-Dropdown__3cc8e8" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _2aOuodBenLHlceR3j0AlIM uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                                </div>
+                                                                </div>
+                                                                <div class="_1_GKN8UW8t3pCAZhMgZOoL _3rYrfakWyDh7Y1L9ULn4ve"></div>
+                                                                <div class="_3SWQgWX2fzvWmGCv463r_-"><button role="button" tabindex="-1" aria-label="Switch to markdown" class="_1Wn5lpE9yF7YQX-XVL6AUI _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC _3uJP0daPEH2plzVEYyTdaH "><span>Markdown Mode</span></button></div>
+                                                                </div>
+                                                                </div>*@
+                                                                <div class="tVQ1dB4n0mAWdcQNxFq-K "></div>
+                                                                <div class="tVQ1dB4n0mAWdcQNxFq-K _38dbigXGGrbLqPyAm7KuuU "></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<div class="_2ulKn_zs7Y3LWsOqoFLHPo ">
+                                                <div class="_1avwNy0RnwlEwVEW-fwKCI">
+                                                <div class="_3N0NZT0gc58Hq7p0XRUjsH">
+                                                <button id="CommentSort--SortPicker" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1nMYOibX9neGRqvcaCrPDz zW82EsY6Pakxpq4WWvsUG "><span class="_2-cXnP74241WI7fpcpfPmg _3LRBCA71BwLLXBNsSlY7HW">Sort by: best</span></button>
+                                                <svg class="XHbKeEqnW58ib9mTN6jnS u_kypUXmB-k1A5TcC8MI9 _2MGxQvIhmM2I5CzPdSJTtM" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M14.17,9.35,10,13.53,5.83,9.35a.5.5,0,0,1,.35-.85h7.64a.5.5,0,0,1,.35.85"></path>
+                                                </svg>
+                                                </div>
+                                                <div class="_1avwNy0RnwlEwVEW-fwKCI">
+                                                <span class="_3v-KNQB_UvJqSbWcQZmc0U">|</span>
+                                                <div>
+                                                <div class="_1qRmLv2PYGtqa3xyVEYz_R">
+                                                <div data-testid="comment_search-bar">
+                                                <label class="_1qRmLv2PYGtqa3xyVEYz_R _3AIIvG4My2zfaJh7r8TucE">
+                                                <div class="_3JOs2fo7GARfPQK9n9uvyr" role="submit"><i class="_1rMy-IddyxrWMGR5hH5O1E _2i3sQHj_1l-LDzGfzQTjHM icon icon-search"></i></div>
+                                                <input type="search" class="_1Vs6ZQxgSSIBCGCe2dcMoA _2WVAyd_SvtylHMe7sKaua9" data-testid="COMMENT_SEARCH_BAR_TEST_ID" id="comment_search-bar" placeholder="Search comments" value="">
+                                                </label>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>*@
+                                                <div class="_2M2wOqmeoPVvcSsJ6Po9-V ">
+                                                    @foreach (var item in Model.Feedbacks)
+                                                    {
+                                                        <div>
+                                                            <div class="_1ump7uMrSA43cqok14tPrG" style="--commentswrapper-gradient-color:#FFFFFF;max-height:unset">
+                                                                <div class="_1YCqQVO-9r-Up6QPB9H6_4 _1YCqQVO-9r-Up6QPB9H6_4">
+                                                                    <div data-scroller-first="">
+                                                                        <div>
+                                                                            <div>
+                                                                                <div id="t1_jjaqz0i" style="padding-left:16px" tabindex="-1" class="_3sf33-9rVAO_v4y0pIW_CH">
+                                                                                    <div class="_1DooEIX-1Nj5rweIc5cw_E">
+                                                                                        <div class="_3Wv3am0TXfTcugZJ6niui">
+                                                                                            <div class="_36AIN2ppxy_z-XSDxTvYj5 t1_jjaqz0i undefined"><i class="threadline"></i></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="Comment t1_jjaqz0i P8SGAKMtRxNwlmLz1zdJu HZ-cv9q391bm8s7qT54B3 _1z5rdmX8TDr6mqwNv7A70U">
+                                                                                        <div class="_2CkgPEY8ljDZH3np9UY1ws">
+                                                                                            <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstCommentVisible || function(){})();">
+                                                                                        </div>
+                                                                                        <button class="_1nGapmdexvR0BuOkfAi6wa t1_jjaqz0i _1zN1-lYh2LfbYOMAho_O8g _2Gzh48SaLz7dQBCULfOC6V"><i class="icon icon-expand _1tnrhhM9S7dYjApTfvd14l"></i></button>
+                                                                                        <div class="_2mHuuvyV9doV3zwbZPtIPG ZvAy-PJfJmB8pzQxpz1sS">
+                                                                                            <div id="AvatarUserInfoTooltip--t1_jjaqz0i">
+                                                                                                <a class="_3GfQMgsm3HGd3838lwqCST" data-testid="comment_author_icon" href="/user/DesiCaptainAmerica/">
+                                                                                                    <div class="_2p14AQvJBvTrEEa4csiW9v _1TENjLYSaj4L4uJMZa3DRe">
+                                                                                                        <div class="_1cyAeeYDGrx7MPL_jRwKZ _13ScjOmi6dGdJw0JAonQEr  ">
+                                                                                                            <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                                                            <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_7g1v72/styles/profileIcon_snoo4930ed5e-5a31-46f5-98c6-abf2bdc4fd3f-headshot.png?width=256&amp;height=256&amp;crop=256:256,smart&amp;v=enabled&amp;s=977dbf13d611360075ae266e5474fe95dbb71575"></div>
+                                                                                                        </div>
+                                                                                                        <span></span>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="_3tw__eCCe7j-epNCKGXUKk">
+                                                                                            <span class="_1RIl585IYPW6cmNXwgRz0J">level 1</span>
+                                                                                            <div class="-Xcv3XBXmgiY2X5RqaPbO _1S45SPAIb30fsXtEcKPSdt _3LqBzV8aCO9tge99jHiUGy " data-testid="post-comment-header">
+                                                                                                <span class="_1a_HxF03jCyxnx706hQmJR">
+                                                                                                    <div class="_3QEK34iVL1BjyHAVleVVNQ">
+                                                                                                        <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                                                            <div id="UserInfoTooltip--t1_jjaqz0i"><a class="wM6scouPXXsFDSZmZPHRo DjcdNGtVXPcxG0yiFXIoZ _23wugcdiaj44hdfugIAlnX " data-testid="comment_author_link" href="/user/DesiCaptainAmerica/">@item.User.Fname</a></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <span class="_2ETuFsVzMBxiHia6HfJCTQ _8b8fUdBRxCYj9MkNpFvvv"> · </span><a class="_3yx4Dn0W3Yunucf5sVJeFU" data-testid="comment_timestamp" href="https://www.reddit.com/r/IndianBoysOnTinder/comments/13bd40o/comment/jjaqz0i/?utm_source=reddit&amp;utm_medium=web2x&amp;context=3" id="CommentTopMeta--Created--t1_jjaqz0i" target="_blank" rel="nofollow noopener noreferrer">@MyFunction((DateTime)item.CreatedDate)</a>
+                                                                                                    <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div data-testid="comment" class="_3cjCphgls6DH-irkVaA0GM ">
+                                                                                                <div class="_292iotee39Lmt0MkQZ2hPV RichTextJSON-root">
+                                                                                                    <p class="_1qeIAgB0cPwnLhDF9XSiJM">@item.Review</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            @* <div class="_3KgrO85L1p9wQbgwG27q4y">
+                                                                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW _1ewTEGuogtFmDvDII2T2Yy" id="vote-arrows-t1_jjaqz0i">
+                                                                                        <button aria-label="upvote" aria-pressed="false" class="voteButton _2m5vzALl8kQdr9kwIFUo5t " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM _22nWXKAY6OzAfK5GcUqWV2 qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                                                        <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ _3ChHiOyYyUkpZ_Nm3ZyM2M" style="color:#1A1A1B">213</div>
+                                                                                        <button aria-label="downvote" aria-pressed="false" class="voteButton _2m5vzALl8kQdr9kwIFUo5t" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                                                        </div>
+                                                                                        <div class="XZK-LTFT5CgGo9MvPQQsy _1LXnp2ufrzN6ioaTLTjGQ1 _2t8wLytikHzPCUnvXdS_wu _2hXOR2fIcfnUg0p-Env7KQ _3rHRwVOKmBBlBOQ4kIW_vq _2_lhaFUJdP8q0o2L9MN2TN">
+                                                                                        <button class="_374Hkkigy4E4srsI2WktEd"><i class="icon icon-comment _1g4YvNNIFoV_5_EhsVfyRy"></i>Reply</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Give Award</button>
+                                                                                        <div id="t1_jjaqz0i-comment-share-menu"><button class="_374Hkkigy4E4srsI2WktEd">Share</button></div>
+                                                                                        <button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Report</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Save</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Follow</button>
+                                                                                        <div class="hrV8gUgmt0V7wM2wgZ81l _1YnPvd-E5MbmcM3PvRRcX _14hLFU5cIJCyxH9DSgsCov"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t1_jjaqz0i-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1VR6DV38j4rMT5OMeU4gJZ uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                                                        </div>
+                                                                                        </div>*@
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    @*<div>
+                                                    <div class="_1ump7uMrSA43cqok14tPrG" style="--commentswrapper-gradient-color:#FFFFFF;max-height:unset">
+                                                    <div class="_1YCqQVO-9r-Up6QPB9H6_4 _1YCqQVO-9r-Up6QPB9H6_4">
+                                                    <div data-scroller-first="">
+                                                    <div>
+                                                    <div>
+                                                    <div id="t1_jjaqz0i" style="padding-left:16px" tabindex="-1" class="_3sf33-9rVAO_v4y0pIW_CH">
+                                                    <div class="_1DooEIX-1Nj5rweIc5cw_E">
+                                                    <div class="_3Wv3am0TXfTcugZJ6niui">
+                                                    <div class="_36AIN2ppxy_z-XSDxTvYj5 t1_jjaqz0i undefined"><i class="threadline"></i></div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="Comment t1_jjaqz0i P8SGAKMtRxNwlmLz1zdJu HZ-cv9q391bm8s7qT54B3 _1z5rdmX8TDr6mqwNv7A70U">
+                                                    <div class="_2CkgPEY8ljDZH3np9UY1ws">
+                                                    <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstCommentVisible || function(){})();">
+                                                    </div>
+                                                    <button class="_1nGapmdexvR0BuOkfAi6wa t1_jjaqz0i _1zN1-lYh2LfbYOMAho_O8g _2Gzh48SaLz7dQBCULfOC6V"><i class="icon icon-expand _1tnrhhM9S7dYjApTfvd14l"></i></button>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG ZvAy-PJfJmB8pzQxpz1sS">
+                                                    <div id="AvatarUserInfoTooltip--t1_jjaqz0i">
+                                                    <a class="_3GfQMgsm3HGd3838lwqCST" data-testid="comment_author_icon" href="/user/DesiCaptainAmerica/">
+                                                    <div class="_2p14AQvJBvTrEEa4csiW9v _1TENjLYSaj4L4uJMZa3DRe">
+                                                    <div class="_1cyAeeYDGrx7MPL_jRwKZ _13ScjOmi6dGdJw0JAonQEr  ">
+                                                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                    <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_7g1v72/styles/profileIcon_snoo4930ed5e-5a31-46f5-98c6-abf2bdc4fd3f-headshot.png?width=256&amp;height=256&amp;crop=256:256,smart&amp;v=enabled&amp;s=977dbf13d611360075ae266e5474fe95dbb71575"></div>
+                                                    </div>
+                                                    <span></span>
+                                                    </div>
+                                                    </a>
+                                                    </div>
+                                                    </div>
+                                                    <div class="_3tw__eCCe7j-epNCKGXUKk">
+                                                    <span class="_1RIl585IYPW6cmNXwgRz0J">level 1</span>
+                                                    <div class="-Xcv3XBXmgiY2X5RqaPbO _1S45SPAIb30fsXtEcKPSdt _3LqBzV8aCO9tge99jHiUGy " data-testid="post-comment-header">
+                                                    <span class="_1a_HxF03jCyxnx706hQmJR">
+                                                    <div class="_3QEK34iVL1BjyHAVleVVNQ">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                    <div id="UserInfoTooltip--t1_jjaqz0i"><a class="wM6scouPXXsFDSZmZPHRo DjcdNGtVXPcxG0yiFXIoZ _23wugcdiaj44hdfugIAlnX " data-testid="comment_author_link" href="/user/DesiCaptainAmerica/">DesiCaptainAmerica</a></div>
+                                                    </div>
+                                                    </div>
+                                                    <span class="_2ETuFsVzMBxiHia6HfJCTQ _8b8fUdBRxCYj9MkNpFvvv"> · </span><a class="_3yx4Dn0W3Yunucf5sVJeFU" data-testid="comment_timestamp" href="https://www.reddit.com/r/IndianBoysOnTinder/comments/13bd40o/comment/jjaqz0i/?utm_source=reddit&amp;utm_medium=web2x&amp;context=3" id="CommentTopMeta--Created--t1_jjaqz0i" target="_blank" rel="nofollow noopener noreferrer">5 hr. ago</a>
+                                                    <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                                    </span>
+                                                    </div>
+                                                    <div data-testid="comment" class="_3cjCphgls6DH-irkVaA0GM ">
+                                                    <div class="_292iotee39Lmt0MkQZ2hPV RichTextJSON-root">
+                                                    <p class="_1qeIAgB0cPwnLhDF9XSiJM">Plot twist: he didn't tip and need some extra cash for sutta.</p>
+                                                    </div>
+                                                    </div>
+                                                    <div class="_3KgrO85L1p9wQbgwG27q4y">
+                                                    <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW _1ewTEGuogtFmDvDII2T2Yy" id="vote-arrows-t1_jjaqz0i">
+                                                    <button aria-label="upvote" aria-pressed="false" class="voteButton _2m5vzALl8kQdr9kwIFUo5t " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM _22nWXKAY6OzAfK5GcUqWV2 qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                    <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ _3ChHiOyYyUkpZ_Nm3ZyM2M" style="color:#1A1A1B">213</div>
+                                                    <button aria-label="downvote" aria-pressed="false" class="voteButton _2m5vzALl8kQdr9kwIFUo5t" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                    </div>
+                                                    <div class="XZK-LTFT5CgGo9MvPQQsy _1LXnp2ufrzN6ioaTLTjGQ1 _2t8wLytikHzPCUnvXdS_wu _2hXOR2fIcfnUg0p-Env7KQ _3rHRwVOKmBBlBOQ4kIW_vq _2_lhaFUJdP8q0o2L9MN2TN">
+                                                    <button class="_374Hkkigy4E4srsI2WktEd"><i class="icon icon-comment _1g4YvNNIFoV_5_EhsVfyRy"></i>Reply</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Give Award</button>
+                                                    <div id="t1_jjaqz0i-comment-share-menu"><button class="_374Hkkigy4E4srsI2WktEd">Share</button></div>
+                                                    <button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Report</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Save</button><button class="_374Hkkigy4E4srsI2WktEd _2hr3tRWszeMRQ0u_Whs7t8 _14hLFU5cIJCyxH9DSgsCov">Follow</button>
+                                                    <div class="hrV8gUgmt0V7wM2wgZ81l _1YnPvd-E5MbmcM3PvRRcX _14hLFU5cIJCyxH9DSgsCov"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t1_jjaqz0i-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1VR6DV38j4rMT5OMeU4gJZ uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+
+
+
+
+
+
+
+                                                    </div>
+                                                    </div>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="_3Kd8DQpBIbsr5E1JcrMFTY _1tvThPWQpORoc2taKebHxs" style="margin-left:24px;margin-top:0">
+                                            <div class="_31AVRNJbVMh2DUFRrpCQcD RffBqG1xCvuy1r49wYhLr">
+                                                <div class="_1G4yU68P50vRZ4USXfaceV " data-redditstyle="false">
+                                                    <div class="_ZhON3a3vplThB8NFwuJn ">
+                                                        <div class="_2sggAEfRQLyoAl4J__5twU yobE-ux_T1smVDcFMMKFv">
+                                                            <h2 class="_eYtD2XCVieq6emjKBH3m">About Community</h2>
+                                                        </div>
+@*                                                        <div class="_3nzVPnRRnrls4DOXO_I0fn"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="IDCARD_OVERFLOW_DROPDOWN_ID" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1LAmcxBaaqShJsi8RNT-Vp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+*@                                                    </div>
+                                                    <div class="TmgZY6tDcdErbE5d7E0HJ " style="max-height:none">
+                                                        <div class="_20Kb6TX_CdnePoT8iEsls6">
+                                                            <img style="background-color:#0079D3" alt="Subreddit Icon" role="presentation" src="~/img/@Model.Post.Community.Logo" class="_34CfAAowTqdbNDYXz5tBTW _2Vkdik1Q8k0lBEhhA_lRKE ">
+                                                            <div class="_2Zdkj7cQEO3zSGHGK2XnZv"><a class="_2D7eYuDY6cYGtybECmsxvE" href="/r/IndianBoysOnTinder/"><span class="_19bCWnxeTjqzBElWZfIlJb" title="r/IndianBoysOnTinder">@Model.Post.Community.Name</span></a></div>
+                                                        </div>
+                                                        <div data-redditstyle="true" data-testid="no-edit-description-block" class="_1EPynDYoibfs7nDggdH7Gq">
+                                                            <div class="_1zPvgKHteTOub9dKkvrOl4">@Model.Post.Community.Description</div>
+                                                        </div>
+                                                        <div class="_1vPW2g721nsu89X6ojahiX">
+                                                            <div class="_1sDtEhccxFpHDn2RUhxmSq" id="IdCard--CakeDay--undefined--t5_fbjj3">
+                                                                <i class="_3tMM22A0evCEmrIk-8z4zO icon icon-cake"></i>
+                                                                <span class="_1d4NeAxWOiy0JPz7aXRI64">
+                                                                    @{
+                                                                        string dateTimeString = @Model.Post.Community.CreatedDate.ToString();
+                                                                        DateTime dateTime = DateTime.Parse(dateTimeString);
+                                                                        DateTime dateOnly = dateTime.Date;
+                                                                        string dateString = dateOnly.ToString("MM-dd-yyyy");
+                                                                    }
+                                                                    Created @dateString
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="_3Z6MIaeww5ZxzFqWHAEUxa"></div>
+                                                        <hr class="_38lwnrIpIyqxDfAF1iwhcV">
+                                                        <div class="_3oeM4kc-2-4z-A0RTQLg0I">
+                                                            <div>
+                                                                <div class="_3b9utyKN3e_kzVZ5ngPqAu">@Model.noOfMembers</div>
+                                                                <p class="_244EzVTQLL3kMNnB03VmxK" id="IdCard--Subscribers--undefined--t5_fbjj3">Members</p>
+                                                            </div>
+
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <hr class="_38lwnrIpIyqxDfAF1iwhcV">
+                                                        <div class="_1qiHDKK74j6hUNxM0p9ZIp">
+                                                            <div>
+                                                                @{
+                                                                    List<String> c = new List<string>();
+                                                                }
+                                                                @if (Model.userCommunity != null)
+                                                                {
+                                                                    foreach (var i in Model.userCommunity)
+                                                                    {
+
+                                                                        c.Add(i.Name);
+                                                                    }
+
+                                                                    @if (c.Contains(Model.Post.Community.Name))
+                                                                    {
+                                                                        <a href="/home/leave?communityId=@Model.Post.CommunityId">
+                                                                            <button role="button" tabindex="0" id="subscribe-button-t5_fbjj3" class="_1eMniuqQCoYf3kOpyx83Jj _1LHxa-yaHJwrPK8kuyv_Y4 _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Leave</button>
+                                                                        </a>
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        <a href="/home/join?communityId=@Model.Post.CommunityId">
+                                                                            <button role="button" tabindex="0" id="subscribe-button-t5_fbjj3" class="_1eMniuqQCoYf3kOpyx83Jj _1LHxa-yaHJwrPK8kuyv_Y4 _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Join</button>
+                                                                        </a>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="/home/join?communityId=@Model.Post.CommunityId">
+                                                                        <button role="button" tabindex="0" id="subscribe-button-t5_fbjj3" class="_1eMniuqQCoYf3kOpyx83Jj _1LHxa-yaHJwrPK8kuyv_Y4 _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Join</button>
+                                                                    </a>
+                                                                }
+                                                                @*<a href="/home/join?id=@Model.Post.CommunityId">
+                                                                <button role="button" tabindex="0" id="subscribe-button-t5_fbjj3" class="_1eMniuqQCoYf3kOpyx83Jj _1LHxa-yaHJwrPK8kuyv_Y4 _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Join</button>
+                                                                </a>*@
+                                                            </div>
+
+                                                            <a class="_326PJFFRv8chYfOlaEYmGt _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/home/createpost?cid=@Model.Post.CommunityId">Create Post</a>
+                                                        </div>
+@*                                                        <div class="_3Qx5bBCG_O8wVZee9J-KyJ"><button role="button" tabindex="0" class="_1ra1vBLrjtHjhYDZ_gOy8F _4OtOUaGIjjp2cNJMUxme_  _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Community options<i class="icon icon-caret_down"></i></button></div>
+*@                                                    </div>
+                                                </div>
+                                                <div class="_2vEf-C2keJaBMY9qk_BxVn">
+                                                    @*    <div class="_1G4yU68P50vRZ4USXfaceV " data-redditstyle="false" style="background-color:#FFFFFF;border-color:#ccc;fill:#1A1A1B;color:#1A1A1B">
+                                                    <div class="_ZhON3a3vplThB8NFwuJn " style="background-color:#0079D3;fill:#FFFFFF;color:#FFFFFF">
+                                                    <div class="_2sggAEfRQLyoAl4J__5twU">
+                                                    <h2 class="_eYtD2XCVieq6emjKBH3m">Moderators</h2>
+                                                    </div>
+                                                    </div>
+                                                    <div class="TmgZY6tDcdErbE5d7E0HJ " style="max-height:none">
+                                                    <a class="_334yl59sgT7zkOwg0PsXVJ _2iuoyPiKHN3kfOoeIQalDT _2tU8R9NTqhvBrhoNAXWWcP HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" rel="noopener noreferrer" target="_blank" href="/message/compose?to=/r/IndianBoysOnTinder"><i class="icon icon-message -q98D9g-c8Eatzem_wgvF"></i>Message the mods</a>
+                                                    <div class="_1Y_VNBcV1dWk6Y7xcJHQyQ">
+                                                    <a href="/user/Ammadu_LetsdoKummudu/">
+                                                    <div class="ULWj94BYSOqoJDetxgcnU">u/Ammadu_LetsdoKummudu</div>
+                                                    </a>
+                                                    </div>
+                                                    <div class="_1Y_VNBcV1dWk6Y7xcJHQyQ">
+                                                    <a href="/user/sherlock_47/">
+                                                    <div class="ULWj94BYSOqoJDetxgcnU">u/sherlock_47</div>
+                                                    </a>
+                                                    </div>
+                                                    <div class="_1Y_VNBcV1dWk6Y7xcJHQyQ">
+                                                    <a href="/user/__teju/">
+                                                    <div class="ULWj94BYSOqoJDetxgcnU">u/__teju</div>
+                                                    </a>
+                                                    </div>
+                                                    <div class="_2pf-KRzaHwj_TjBcOIDrWG"><a class="_2GrMpxDnqcoKtPHot56EWQ" href="/r/IndianBoysOnTinder/about/moderators/">View All Moderators</a></div>
+                                                    </div>
+                                                    </div>*@
+                                                </div>
+                                                <div class="_1oRQu-aolgpPPJDblUGTw5">
+                                                    <div class=""></div>
+                                                    <div class="_3Tc8YYRhVDX9vlR0XePZfH _365FiUZ11efXHV7l7fNp6K" style="top:calc(100vh - 8px)"><button role="button" tabindex="0" class="_2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 ">Back to Top</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .subredditvars-r-indianboysontinder {
+                        --newCommunityTheme-actionIcon: #878A8C;
+                        --newCommunityTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newCommunityTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newCommunityTheme-actionIconShaded80: #6c6e70;
+                        --newCommunityTheme-actionIconTinted80: #9fa1a3;
+                        --newCommunityTheme-active: #0079D3;
+                        --newCommunityTheme-activeAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-activeAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-activeAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-activeLight60: #33a8ff;
+                        --newCommunityTheme-activeShaded80: #0060a8;
+                        --newCommunityTheme-activeShaded90: #006cbd;
+                        --newCommunityTheme-activeTinted05: #f2f8fc;
+                        --newCommunityTheme-backgroundImage: initial;
+                        --newCommunityTheme-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-backgroundColor: #33a8ff;
+                        --newCommunityTheme-banner-backgroundImage: initial;
+                        --newCommunityTheme-banner-backgroundImagePosition: cover;
+                        --newCommunityTheme-banner-communityNameFormat: slashtag;
+                        --newCommunityTheme-banner-height: 64;
+                        --newCommunityTheme-banner-iconColor: #0079D3;
+                        --newCommunityTheme-banner-iconDimensions-borderRadius: 24;
+                        --newCommunityTheme-banner-iconDimensions-customSize: 32;
+                        --newCommunityTheme-banner-iconDimensions-padding: 6;
+                        --newCommunityTheme-banner-iconDimensions-size: 24;
+                        --newCommunityTheme-banner-iconImage: url("https://styles.redditmedia.com/t5_fbjj3/styles/communityIcon_33p29xaf0sp61.png?width=256&v=enabled&s=ee5565dcc7209f54437fe68a83a9549a7d2e03b9");
+                        --newCommunityTheme-banner-lineHeight: 38;
+                        --newCommunityTheme-banner-positionedImage: initial;
+                        --newCommunityTheme-banner-positionedImageAlignment: left;
+                        --newCommunityTheme-banner-positionedImageHeight: 48;
+                        --newCommunityTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newCommunityTheme-body: #FFFFFF;
+                        --newCommunityTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newCommunityTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newCommunityTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newCommunityTheme-bodyFade: #FFFFFF00;
+                        --newCommunityTheme-bodyShaded80: #ccc;
+                        --newCommunityTheme-bodyText: #1c1c1c;
+                        --newCommunityTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newCommunityTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newCommunityTheme-bodyTextShaded20: #050505;
+                        --newCommunityTheme-bodyTextTinted20: #d1d1d1;
+                        --newCommunityTheme-bodyTinted50: #fff;
+                        --newCommunityTheme-bodyTinted80: #fff;
+                        --newCommunityTheme-button: #0079D3;
+                        --newCommunityTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newCommunityTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newCommunityTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newCommunityTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newCommunityTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newCommunityTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newCommunityTheme-buttonShaded80: #0060a8;
+                        --newCommunityTheme-buttonTinted20: #cce4f6;
+                        --newCommunityTheme-buttonTinted50: #7fbce9;
+                        --newCommunityTheme-buttonTinted80: #3293db;
+                        --newCommunityTheme-canvas: #DAE0E6;
+                        --newCommunityTheme-canvasImgPosition: cover;
+                        --newCommunityTheme-canvasImgUrl: initial;
+                        --newCommunityTheme-checkbox: #000000;
+                        --newCommunityTheme-errorText: #FF0000;
+                        --newCommunityTheme-field: #F6F7F8;
+                        --newCommunityTheme-fieldFade: #F6F7F800;
+                        --newCommunityTheme-flair: #EDEFF1;
+                        --newCommunityTheme-highlight: #e5f1fa;
+                        --newCommunityTheme-inactive: #EDEFF1;
+                        --newCommunityTheme-invertFilter: invert(0);
+                        --newCommunityTheme-lightText: #FFFFFF;
+                        --newCommunityTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newCommunityTheme-line: #EDEFF1;
+                        --newCommunityTheme-lineShaded80: #bdbfc0;
+                        --newCommunityTheme-lineShaded90: #d5d7d8;
+                        --newCommunityTheme-lineShadedNinety: #d5d7d8;
+                        --newCommunityTheme-linkText: #0079D3;
+                        --newCommunityTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newCommunityTheme-linkTextShaded80: #0060a8;
+                        --newCommunityTheme-linkTextTinted80: #3293db;
+                        --newCommunityTheme-linkTextWithBody: #3f9ade;
+                        --newCommunityTheme-menu: #FFFFFF;
+                        --newCommunityTheme-menuActiveText: #0079D3;
+                        --newCommunityTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newCommunityTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newCommunityTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newCommunityTheme-menuInactiveText: #0079D3;
+                        --newCommunityTheme-metaText: #7c7c7c;
+                        --newCommunityTheme-monospaceColor: #FF006D;
+                        --newCommunityTheme-navBar-activeLink: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuCaret: #0079D3;
+                        --newCommunityTheme-navBar-activeSubmenuLink: #0079D3;
+                        --newCommunityTheme-navBar-backgroundColor: #dbf0ff;
+                        --newCommunityTheme-navBar-backgroundImage: initial;
+                        --newCommunityTheme-navBar-hoverLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveLink: #0079D3;
+                        --newCommunityTheme-navBar-inactiveSubmenuCaret: #33a8ff;
+                        --newCommunityTheme-navBar-inactiveSubmenuLink: #33a8ff;
+                        --newCommunityTheme-navBar-submenuBackgroundColor: #dbf0ff;
+                        --newCommunityTheme-navIcon: #1A1A1B;
+                        --newCommunityTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newCommunityTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newCommunityTheme-nsfwBlocking-color: #030303;
+                        --newCommunityTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newCommunityTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newCommunityTheme-orangeRed: #FF4500;
+                        --newCommunityTheme-pageHeader: #0079D3;
+                        --newCommunityTheme-placeholder: #d6d6d6;
+                        --newCommunityTheme-placeholderImage: initial;
+                        --newCommunityTheme-placeholderImagePosition: cover;
+                        --newCommunityTheme-post: #FFFFFF;
+                        --newCommunityTheme-postError: #ffe5e5;
+                        --newCommunityTheme-postFlairText: #1A1A1B;
+                        --newCommunityTheme-postIcon: #898989;
+                        --newCommunityTheme-postLine: #ccc;
+                        --newCommunityTheme-postLineShaded80: #a3a3a3;
+                        --newCommunityTheme-postLineShaded90: #b7b7b7;
+                        --newCommunityTheme-postTinted20: #fff;
+                        --newCommunityTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newCommunityTheme-primaryButtonShadedEighty: #0060a8;
+                        --newCommunityTheme-primaryButtonTintedEighty: #3293db;
+                        --newCommunityTheme-primaryButtonTintedFifty: #7fbce9;
+                        --newCommunityTheme-primaryButtonTintedSixty: #66aee4;
+                        --newCommunityTheme-report: #fff7e5;
+                        --newCommunityTheme-textTransparentizedEighty: rgba(26,26,27,0.2);
+                        --newCommunityTheme-titleText: #222222;
+                        --newCommunityTheme-voteIcons-downvoteActive: initial;
+                        --newCommunityTheme-voteIcons-downvoteInactive: initial;
+                        --newCommunityTheme-voteIcons-upvoteActive: initial;
+                        --newCommunityTheme-voteIcons-upvoteInactive: initial;
+                        --newCommunityTheme-voteText-base: #898989;
+                        --newCommunityTheme-voteText-downvote: #7193FF;
+                        --newCommunityTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newCommunityTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newCommunityTheme-voteText-upvote: #FF4500;
+                        --newCommunityTheme-voteText-upvoteShaded80: #cc3700;
+                        --newCommunityTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newCommunityTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newCommunityTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newCommunityTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColor: #0079D3;
+                        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(0,121,211,0.6);
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newCommunityTheme-widgetColors-sidebarWidgetTitleColor: #FFFFFF;
+                        --newRedditTheme-actionIcon: #878A8C;
+                        --newRedditTheme-actionIconAlpha20: rgba(135,138,140,0.2);
+                        --newRedditTheme-actionIconAlpha50: rgba(135,138,140,0.5);
+                        --newRedditTheme-actionIconShaded80: #6c6e70;
+                        --newRedditTheme-actionIconTinted80: #9fa1a3;
+                        --newRedditTheme-active: #24A0ED;
+                        --newRedditTheme-activeAlpha10: rgba(36,160,237,0.1);
+                        --newRedditTheme-activeAlpha20: rgba(36,160,237,0.2);
+                        --newRedditTheme-activeAlpha50: rgba(36,160,237,0.5);
+                        --newRedditTheme-activeLight60: #42adf0;
+                        --newRedditTheme-activeShaded80: #1c80bd;
+                        --newRedditTheme-activeShaded90: #2090d5;
+                        --newRedditTheme-activeTinted05: #f4fafe;
+                        --newRedditTheme-banner-backgroundColor: #24A0ED;
+                        --newRedditTheme-banner-backgroundImage: initial;
+                        --newRedditTheme-banner-backgroundImagePosition: cover;
+                        --newRedditTheme-banner-communityNameFormat: slashtag;
+                        --newRedditTheme-banner-height: 64;
+                        --newRedditTheme-banner-iconColor: #24A0ED;
+                        --newRedditTheme-banner-iconDimensions-borderRadius: 24;
+                        --newRedditTheme-banner-iconDimensions-customSize: 32;
+                        --newRedditTheme-banner-iconDimensions-padding: 6;
+                        --newRedditTheme-banner-iconDimensions-size: 24;
+                        --newRedditTheme-banner-iconImage: initial;
+                        --newRedditTheme-banner-lineHeight: 38;
+                        --newRedditTheme-banner-positionedImage: initial;
+                        --newRedditTheme-banner-positionedImageAlignment: cover;
+                        --newRedditTheme-banner-positionedImageHeight: 48;
+                        --newRedditTheme-banner-secondaryBannerPositionedImage: initial;
+                        --newRedditTheme-body: #FFFFFF;
+                        --newRedditTheme-bodyAlpha50: rgba(255,255,255,0.5);
+                        --newRedditTheme-bodyAlpha70: rgba(255,255,255,0.7);
+                        --newRedditTheme-bodyAlpha80: rgba(255,255,255,0.8);
+                        --newRedditTheme-bodyFade: #FFFFFF00;
+                        --newRedditTheme-bodyShaded80: #ccc;
+                        --newRedditTheme-bodyText: #1c1c1c;
+                        --newRedditTheme-bodyTextAlpha03: rgba(28,28,28,0.03);
+                        --newRedditTheme-bodyTextAlpha20: rgba(28,28,28,0.2);
+                        --newRedditTheme-bodyTextShaded20: #050505;
+                        --newRedditTheme-bodyTextTinted20: #d1d1d1;
+                        --newRedditTheme-bodyTinted50: #fff;
+                        --newRedditTheme-bodyTinted80: #fff;
+                        --newRedditTheme-button: #0079D3;
+                        --newRedditTheme-buttonAlpha05: rgba(0,121,211,0.05);
+                        --newRedditTheme-buttonAlpha10: rgba(0,121,211,0.1);
+                        --newRedditTheme-buttonAlpha20: rgba(0,121,211,0.2);
+                        --newRedditTheme-buttonAlpha40: rgba(0,121,211,0.4);
+                        --newRedditTheme-buttonAlpha50: rgba(0,121,211,0.5);
+                        --newRedditTheme-buttonAlpha80: rgba(0,121,211,0.8);
+                        --newRedditTheme-buttonShaded80: #0060a8;
+                        --newRedditTheme-buttonTinted20: #cce4f6;
+                        --newRedditTheme-buttonTinted50: #7fbce9;
+                        --newRedditTheme-buttonTinted80: #3293db;
+                        --newRedditTheme-canvas: #DAE0E6;
+                        --newRedditTheme-checkbox: #000000;
+                        --newRedditTheme-errorText: #FF0000;
+                        --newRedditTheme-field: #F6F7F8;
+                        --newRedditTheme-fieldFade: #F6F7F800;
+                        --newRedditTheme-flair: #EDEFF1;
+                        --newRedditTheme-highlight: #e9f5fd;
+                        --newRedditTheme-inactive: #EDEFF1;
+                        --newRedditTheme-invertFilter: invert(0);
+                        --newRedditTheme-lightText: #FFFFFF;
+                        --newRedditTheme-lightTextAlpha75: rgba(255,255,255,0.75);
+                        --newRedditTheme-line: #EDEFF1;
+                        --newRedditTheme-lineShaded80: #bdbfc0;
+                        --newRedditTheme-lineShaded90: #d5d7d8;
+                        --newRedditTheme-linkText: #0079D3;
+                        --newRedditTheme-linkTextAlpha80: rgba(0,121,211,0.5);
+                        --newRedditTheme-linkTextShaded80: #0060a8;
+                        --newRedditTheme-linkTextTinted80: #3293db;
+                        --newRedditTheme-linkTextWithBody: #3f9ade;
+                        --newRedditTheme-menu: #FFFFFF;
+                        --newRedditTheme-menuActiveText: #0079D3;
+                        --newRedditTheme-menuButtonBackground-active: rgba(0,0,0,0.08);
+                        --newRedditTheme-menuButtonBackground-focus: rgba(0,0,0,0.12);
+                        --newRedditTheme-menuButtonBackground-hover: rgba(0,0,0,0.04);
+                        --newRedditTheme-menuInactiveText: #0079D3;
+                        --newRedditTheme-metaText: #7c7c7c;
+                        --newRedditTheme-metaTextAlpha50: rgba(120,124,126,0.5);
+                        --newRedditTheme-metaTextShaded80: #606364;
+                        --newRedditTheme-monospaceColor: #FF006D;
+                        --newRedditTheme-navBar-activeLink: #E9F5FD;
+                        --newRedditTheme-navBar-activeSubmenuCaret: #24A0ED;
+                        --newRedditTheme-navBar-activeSubmenuLink: #24A0ED;
+                        --newRedditTheme-navBar-backgroundColor: #24A0ED;
+                        --newRedditTheme-navBar-backgroundImage: initial;
+                        --newRedditTheme-navBar-hoverLink: #E9F5FD;
+                        --newRedditTheme-navBar-inactiveLink: #EDEFF1;
+                        --newRedditTheme-navBar-inactiveSubmenuCaret: #42adf0;
+                        --newRedditTheme-navBar-inactiveSubmenuLink: #42adf0;
+                        --newRedditTheme-navBar-submenuBackgroundColor: #def1fc;
+                        --newRedditTheme-navIcon: #1A1A1B;
+                        --newRedditTheme-navIconFaded10: rgba(26,26,27,0.1);
+                        --newRedditTheme-nsfw: #ff585b;
+                        --newRedditTheme-nsfwBlocking-bgcolor: #edeff1;
+                        --newRedditTheme-nsfwBlocking-color: #030303;
+                        --newRedditTheme-nsfwBlocking-contentTitleBgColor: #f6f7f8;
+                        ;
+                        --newRedditTheme-nsfwBlocking-mainCtaBgColor: #fff;
+                        --newRedditTheme-orangeRed: #FF4500;
+                        --newRedditTheme-pageHeader: #0079D3;
+                        --newRedditTheme-placeholder: #d6d6d6;
+                        --newRedditTheme-post: #FFFFFF;
+                        --newRedditTheme-postError: #ffe5e5;
+                        --newRedditTheme-postFlairText: #1A1A1B;
+                        --newRedditTheme-postIcon: #898989;
+                        --newRedditTheme-postLine: #ccc;
+                        --newRedditTheme-postLineShaded80: #a3a3a3;
+                        --newRedditTheme-postLineShaded90: #b7b7b7;
+                        --newRedditTheme-postTinted20: #fff;
+                        --newRedditTheme-postTransparent20: rgba(255,255,255,0.8);
+                        --newRedditTheme-quarantine: #ffb000;
+                        --newRedditTheme-report: #fff7e5;
+                        --newRedditTheme-search-syntaxHighlightBackgroundColor: #E9F5FD;
+                        --newRedditTheme-search-syntaxHighlightColor: #1A1A1A;
+                        --newRedditTheme-titleText: #1A1A1B;
+                        --newRedditTheme-upsell-appleIcon: #000000;
+                        --newRedditTheme-upsell-ssoButtonBorderColor: #D3D6DA;
+                        --newRedditTheme-upsell-ssoButtonTextColor: #3D4043;
+                        --newRedditTheme-voteIcons-downvoteActive: initial;
+                        --newRedditTheme-voteIcons-downvoteInactive: initial;
+                        --newRedditTheme-voteIcons-upvoteActive: initial;
+                        --newRedditTheme-voteIcons-upvoteInactive: initial;
+                        --newRedditTheme-voteText-base: #898989;
+                        --newRedditTheme-voteText-downvote: #7193FF;
+                        --newRedditTheme-voteText-downvoteShaded80: #5a75cc;
+                        --newRedditTheme-voteText-downvoteTinted80: #8da8ff;
+                        --newRedditTheme-voteText-upvote: #FF4500;
+                        --newRedditTheme-voteText-upvoteShaded80: #cc3700;
+                        --newRedditTheme-voteText-upvoteTinted80: #ff6a32;
+                        --newRedditTheme-widgetColors-lineColor: rgba(26,26,27,0.07);
+                        --newRedditTheme-widgetColors-sidebarWidgetBackgroundColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetBorderColor: #ccc;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColor: #FFFFFF;
+                        --newRedditTheme-widgetColors-sidebarWidgetHeaderColorAlpha60: rgba(255,255,255,0.6);
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColor: #1A1A1B;
+                        --newRedditTheme-widgetColors-sidebarWidgetTextColorShaded80: #141415;
+                        --newRedditTheme-widgetColors-sidebarWidgetTitleColor: #1A1A1B;
+                        --subredditContext-isCommentsPage: initial;
+                        --subredditContext-isOverlay: initial;
+                    }</style>
+                <div class="subredditvars-r-indianboysontinder"><iframe class="w-0 h-0" src="https://chat.reddit.com/try?redditUserId=t2_56b8opr5" data-testid="reddit-chat-try-iframe-window"></iframe></div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/Script.js"></script>
+
+</body>
+</html>

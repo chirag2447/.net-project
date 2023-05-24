@@ -1,0 +1,48 @@
+﻿@model communityWeb.Models.CommunityRequest
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>CommunityRequest</h4>
+    <hr />
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+            <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Community)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Community.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SentByUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SentByUser.Fname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.Fname)
+        </dd>
+    </dl>
+</div>
+</div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

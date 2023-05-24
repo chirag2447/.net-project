@@ -1,0 +1,55 @@
+﻿@model communityWeb.Models.Award
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Award</h4>
+<hr />
+<div class="card shadow mb-4 row w-100 d-flex flex-column align-items-center">
+    <div class="card-body col-md-4 w-100">
+        <form asp-action="Create" class="card-body" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+           @* <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <div >
+                    <label asp-for="Image" class="control-label"></label>
+                    <input class="form-control" type="file" name="photo" id="formFile" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn w-100 btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,154 @@
+﻿@model communityWeb.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="card shadow mb-4 row w-100 d-flex flex-column align-items-center">
+    <div class="card-body col-md-4 w-100">
+        <form asp-action="Create" class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Fname" class="control-label"></label>
+                <input asp-for="Fname" class="form-control" />
+                <span asp-validation-for="Fname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lname" class="control-label"></label>
+                <input asp-for="Lname" class="form-control" />
+                <span asp-validation-for="Lname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input asp-for="EmailId" class="form-control" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                @Html.Password("Password",null, new { @class = "form-control" })
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                @*<input asp-for="State" class="form-control" />*@
+                <select name="State" id="state" class="form-control">
+                    <option value="Please select"></option>
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <select name="City" id="city" class="form-control">
+                    <option value="Please select"></option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+                @Html.CheckBoxFor(m=>m.IsActive)
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <div class="editor-field">
+                 @Html.DropDownList("Gender", new List<SelectListItem>{
+                new SelectListItem{ Text="Male", Value="Male"},
+                new SelectListItem{ Text="Female", Value="Female"},
+                new SelectListItem{ Text="Other", Value="Other"}
+                }, "--- Select ---",new{@class="form-control"}
+                )
+    </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+           @* <div class="form-group">
+                <label asp-for="RegisteredDate" class="control-label"></label>
+                <input asp-for="RegisteredDate" class="form-control" />
+                <span asp-validation-for="RegisteredDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn w-100 btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        //getCountry();
+        //$("#state").attr('disabled', true);
+        //$("#city").attr('disabled', true);
+        //$("#country").change(function () {
+            $("#state").attr('disabled', false);
+
+            //var id = $(this).val();
+            $("#state").empty();
+            $("#state").append("<option>---select state---</option>");
+            $.ajax({
+                url: "/cascade/State",
+                success: function (result) {
+                    $.each(result, function (i, data) {
+                        $("#state").append("<option value=" + data.name + ">" + data.name + "</option>");
+                    });
+                }
+            });
+
+        //});
+
+        $("#state").change(function () {
+            $("#city").attr('disabled', false);
+
+            var id = $(this).val();
+            $("#city").empty();
+            $("#city").append("<option>---select city---</option>");
+            $.ajax({
+                url: "/cascade/City?id=" + id,
+                success: function (result) {
+                    $.each(result, function (i, data) {
+                        $("#city").append("<option value=" + data.name + ">" + data.name + "</option>");
+                    });
+                }
+            });
+
+        });
+
+
+    });
+    function getCountry() {
+        $.ajax({
+            url: "/cascade/Country",
+            success: function (result) {
+
+                $.each(result, function (i, data) {
+                    console.log(data);
+                    console.log(i);
+                    $("#country").append("<option value=" + data.id + ">" + data.name + "</option>")
+                });
+
+            }
+        });
+    }
+</script>

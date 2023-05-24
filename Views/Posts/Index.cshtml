@@ -1,0 +1,150 @@
+﻿@model IEnumerable<communityWeb.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search: <input class="form-control d-inline w-25" type="text" name="SearchString" value="@ViewBag.CurrentFilter" />
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
+            </button> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<div class="card shadow mb-4">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th width="2rem;">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+                        <th width="3rem;">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Community)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+                    @if (ViewBag.totalItems != 0)
+                    {
+@foreach (var item in Model) {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @if (@item.FileName.ToLower().Contains(".png") || @item.FileName.ToLower().Contains(".jpg") || item.FileName.ToLower().Contains("jpeg")){
+
+                <img src="~/img/@item.FileName" height="50px" width="50px"/>
+                }else{
+                    <video width="144" height="80" controls>
+                        <source src="~/img/@item.FileName" type="video/mp4">
+
+                        Your browser does not support the video tag.
+                    </video>               
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                    @if (item.IsActive == true)
+                    {
+                        <lable>True</lable>
+                    }
+                    else
+                    {
+                        <lable>False</lable>
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Community.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Fname )
+            </td>
+            <td align="center">
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+                    }
+                    else
+                    {
+                    <tr>
+                        <td>
+
+                            <h1>No data to show</h1>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (ViewBag.totalItems > ViewBag.pageSize)
+    {
+        <div class="w-100 mb-3 d-flex justify-content-around">
+
+            @if (ViewBag.page == 1)
+            {
+
+                <a class=" opacity-0" style="z-index:-1;"></a>
+                <a class="btn btn-primary" href='@Url.Action("Index", "Posts", new { page = ViewBag.page + 1,searchString = ViewBag.CurrentFilter })'>Next &raquo;</a>
+            }
+
+            else if (ViewBag.page != ViewBag.totalPage)
+            {
+                <a class="btn btn-primary" href='@Url.Action("Index", "Posts", new { page = ViewBag.page - 1,searchString = ViewBag.CurrentFilter  })'>&laquo; Previous</a>
+                <a class="btn btn-primary" href='@Url.Action("Index", "Posts", new { page = ViewBag.page + 1 ,searchString = ViewBag.CurrentFilter })'>Next &raquo;</a>
+            }
+
+            else if (ViewBag.page == ViewBag.totalPage)
+            {
+                <a class="btn btn-primary" href='@Url.Action("Index", "Posts", new { page = ViewBag.page - 1,searchString = ViewBag.CurrentFilter  })'>&laquo; Previous</a>
+                <a class=" opacity-0" style="z-index:-1;"></a>
+
+            }
+        </div>
+    }
+
+</div>

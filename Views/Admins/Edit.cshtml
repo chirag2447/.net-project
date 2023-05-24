@@ -1,0 +1,66 @@
+﻿@model communityWeb.Models.Admin
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Admin</h4>
+<hr />
+<div class="card shadow mb-4 row w-100 d-flex flex-column align-items-center">
+    <div class="card-body col-md-4 w-100">
+        <form asp-action="Edit" class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="UName" class="control-label"></label>
+                <input asp-for="UName" class="form-control" />
+                <span asp-validation-for="UName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input asp-for="EmailId" class="form-control" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+@*                <input asp-for="IsActive" class="form-control" />
+*@                
+                @if(Model.IsActive == true)
+                {
+
+                    @Html.CheckBoxFor(m=>m.IsActive,true)
+                }
+                else
+                {
+                    
+                    @Html.CheckBoxFor(m=>m.IsActive,false)
+                }
+<span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-block btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

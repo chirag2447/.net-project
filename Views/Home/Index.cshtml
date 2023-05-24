@@ -1,0 +1,1253 @@
+﻿@model communityWeb.Models.homeView
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+   var u = Context.Session.GetString("user");
+   List<string> c = new List<string>();
+                                                        
+}
+
+<div class="none" >
+
+    <div class="chiragCard">
+        <form enctype="multipart/form-data" asp-controller="home" asp-action="addCommunity" class="chiragContainer">
+            <div class="chiragF">
+               
+                    <h1 style="font-weight:500;font-size:1.3rem;">Create A Community</h1>
+
+                <div>
+                    <button id="panchalBtn"><i class="fa-solid fa-x"></i></button>
+                </div>
+            </div>
+            <hr style="width:100%;color:dimgrey;opacity:0.5">
+            <div class="chiragS">
+                <h1 style="font-weight:500;font-size:1.3rem;">Name</h1>
+                <h5 style="font-size:12px;">Community names cannot be changed.</h5>
+                  
+            </div>
+            <div class="chiragT">
+                <span style="margin-left:1rem;">r/</span>
+                <input class="chii" name="community" type="text" width="50%" style="width:100%;border:none;color:black;background-color:white;" />
+            </div>
+            <div class="chiragD">
+                <h1 style="font-weight:500;font-size:1.3rem;margin-top:1rem;">Description</h1>
+                <textarea name="des" style="color:black;background:white;margin:1rem 0;width:100%;" rows="6" ></textarea>
+            </div>
+            <div class="chiragI">
+                <h1 style="font-weight:500;font-size:1.3rem;margin-bottom:1rem;">Image</h1>
+                <div class="file-input-container">
+                    <label for="fileInput" class="file-input-label">
+                        <input style="color:black;" type="file" name="file" id="fileInput" class="file-input" onchange="updateFileLabel(this)" />
+                        <span style="color:black;" id="fileLabel">Choose File</span>
+                    </label>
+
+                </div>
+
+            </div>
+            <div class="chiragb">
+                <input height="4rem" style="width:100%;border-radius:5px;padding:10px;background-color:#0079d3;" type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+
+</div>
+<script>
+    function updateFileLabel(input) {
+        const fileLabel = document.getElementById('fileLabel');
+        if (input.files && input.files.length > 0) {
+            fileLabel.textContent = input.files[0].name;
+        } else {
+            fileLabel.textContent = 'Choose File';
+        }
+    }
+
+</script>
+<style>
+    .file-input-container {
+        display: inline-block;
+    }
+
+    .file-input-label {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+</style>
+<style>
+    .chiragD{
+        width:100%;
+        height:10rem;
+        background:white;
+        color:black;
+        display:flex;
+        flex-direction:column;
+
+    }
+    .chiragI{
+        color:black;
+        background:white;
+    }
+    .popup{
+        position: relative;
+        
+        background:rgba(0,0,0,0.4);
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        position: fixed;
+        z-index: 100;
+        
+        top: 3rem;
+        left: 0;
+    }
+    .none{
+        display:none;
+
+    }
+    .chiragCard {
+        /*top: 5rem;*/
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 33rem;
+        height: 33rem;
+        border-radius:10px;
+        background-color:white;
+        padding: 1rem;
+    }
+
+    .chiragContainer {
+        position:relative;
+        /*top:5rem;*/
+        width: 33rem;
+        height: 35rem;
+        
+        display:flex;
+        flex-direction:column;
+       
+    }
+    .chiragF{
+        width:100%;
+        height:3rem;
+        display:flex;
+        color:black;
+        justify-content:space-between;
+        align-items:center;
+        margin-top:.4rem;
+        
+    } 
+    .chiragS{
+        width:100%;
+        height:3rem;
+       
+        color:black;
+       
+        
+    }
+    .chiragT{
+        margin-top:1rem;
+        color:black;
+         width:100%;
+        height:3rem;
+        border-radius:5px;
+        border:1px solid black;
+        display:flex;
+        
+        align-items:center;
+    }
+    .chii:focus{
+        outline:none;
+    }
+    .chiragb{
+        margin-top: 2rem;
+        color: black;
+        width: 100%;
+        height: 3rem;
+        border-radius: 5px;
+        
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+    }
+   
+</style>
+<div data-redditstyle="true" class="_20fGT0XJD3MvX9yBsVeKMn zoWOQnp55WuhEugRSwfw1 ">
+    <!-- <div class="FRrbwuHy8Zmlubp3nowLZ">
+       <div class="_2oY_N7NWiAv9m_mFIRdwVX"><i class="_3B-ny-D97ZKwdUyXAaWF19 icon icon-close"></i></div>
+    </div> -->
+    <!-- ------------left menu------------------------ -->
+    <div role="menu" class="_3k3RwDkEsbX50bb-DBvuWj">
+        <div aria-live="assertive" aria-label=""></div>
+        <input aria-label="Start typing to filter your communities or use up and down to select." class="_37tmRmxaFMjRRrvwcY2JmY" id="header-subreddit-filter" placeholder="Filter">
+        <div class="_1Ok0AiXwAeYl2SsUBaxgPC _2XRPX11qL4-HxWPuHAzOW5" role="heading">your communities</div>
+        <button id="focus-CreateCommunity" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC oiDWziAp_Bua6rb7oQKXs" tabindex="-1" aria-label="Create Community"><i class="cq0sTeCPC4GI78UNPdClD icon icon-add"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Create Community</span></button>
+
+        @foreach(var item in Model.Communities)
+        {
+            <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2s427" role="menuitem" tabindex="-1" aria-label="r/Eyebleach" href="/home/communitydetail?id=@item.Id">
+                <img alt="Subreddit Icon" role="presentation" src="~/img/@item.Logo" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(132, 214, 190);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/@item.Name</span>
+                @*<div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>*@
+            </a>
+        }
+
+      @*  <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2s427" role="menuitem" tabindex="-1" aria-label="r/Eyebleach" href="/r/Eyebleach/">
+            <img alt="Subreddit Icon" role="presentation" src="https://b.thumbs.redditmedia.com/MD9KQJnI4uIuXFUzA3DWabdGKJYceQ1uk2_ktRQXcgY.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(132, 214, 190);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb"></span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2r0ij" role="menuitem" tabindex="-1" aria-label="r/announcements" href="/r/announcements/">
+            <img alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_2r0ij/styles/communityIcon_yor9myhxz5x11.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(252, 71, 30);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/announcements</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2s427" role="menuitem" tabindex="-1" aria-label="r/Eyebleach" href="/r/Eyebleach/">
+            <img alt="Subreddit Icon" role="presentation" src="https://b.thumbs.redditmedia.com/MD9KQJnI4uIuXFUzA3DWabdGKJYceQ1uk2_ktRQXcgY.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(132, 214, 190);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/Eyebleach</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_m0bnr" role="menuitem" tabindex="-1" aria-label="r/nextfuckinglevel" href="/r/nextfuckinglevel/">
+            <img alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_m0bnr/styles/communityIcon_qanlm185crr71.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(245, 69, 4);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/nextfuckinglevel</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2tex6" role="menuitem" tabindex="-1" aria-label="r/ProgrammerHumor" href="/r/ProgrammerHumor/">
+            <img alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_2tex6/styles/communityIcon_u89jf60zv7p41.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(255, 69, 0);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/ProgrammerHumor</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-subt5_2qh87" role="menuitem" tabindex="-1" aria-label="r/space" href="/r/space/">
+            <img alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_2qh87/styles/communityIcon_ub69d1lpjlf51.png" class="_34CfAAowTqdbNDYXz5tBTW _3HTtcITrR-crvsRovLrijl " style="background-color: rgb(55, 60, 63);"><span class="_2aqH0n-kSzFY7HZZ5GL-Jb">r/space</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+      *@  
+      
+        <div class="_1Ok0AiXwAeYl2SsUBaxgPC _2XRPX11qL4-HxWPuHAzOW5" role="heading">following</div>
+        @foreach(var i in Model.FriendRequests)
+        {
+            <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-prot5_ao7d4" role="menuitem" tabindex="-1" aria-label="u/iFergYT" href="/home/userdetail?id=@i.SenderId">
+                <div class="_2p14AQvJBvTrEEa4csiW9v _1TENjLYSaj4L4uJMZa3DRe">
+                    <div class="_1cyAeeYDGrx7MPL_jRwKZ _3HTtcITrR-crvsRovLrijl ">
+                        <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                        <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_ao7d4/styles/profileIcon_snoo850d027e-ba0f-4f1a-b76a-33de5cf63303-headshot-f.png?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=bb769bbad115c75ac35cac2a231b79301981a013"></div>
+                    </div>
+                </div>
+                <span class="_2aqH0n-kSzFY7HZZ5GL-Jb">u/@i.Receiver.Fname</span>
+                <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+            </a>
+        }
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-prot5_ao7d4" role="menuitem" tabindex="-1" aria-label="u/iFergYT" href="/user/iFergYT/">
+            <div class="_2p14AQvJBvTrEEa4csiW9v _1TENjLYSaj4L4uJMZa3DRe">
+                <div class="_1cyAeeYDGrx7MPL_jRwKZ _3HTtcITrR-crvsRovLrijl ">
+                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                    <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_ao7d4/styles/profileIcon_snoo850d027e-ba0f-4f1a-b76a-33de5cf63303-headshot-f.png?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=bb769bbad115c75ac35cac2a231b79301981a013"></div>
+                </div>
+            </div>
+            <span class="_2aqH0n-kSzFY7HZZ5GL-Jb">u/iFergYT</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <a class="XEkFoehJNxIH9Wlr5Ilzd _2MgAHlPDdKvXiG-Qbz5cbC " id="focus-prot5_3o8dbj" role="menuitem" tabindex="-1" aria-label="u/TrollhuntersKing" href="/user/TrollhuntersKing/">
+            <div class="_2p14AQvJBvTrEEa4csiW9v "><img alt="User avatar" class="_2TN8dEgAQbSyKntWpSPYM7 _3HTtcITrR-crvsRovLrijl" src="https://styles.redditmedia.com/t5_3o8dbj/styles/profileIcon_vsuyks901nk81.jpg?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=97ff5474de143a8b49aa1fe5342c54ea1667bc6b"></div>
+            <span class="_2aqH0n-kSzFY7HZZ5GL-Jb">u/TrollhuntersKing</span>
+            <div><i class="t2A0mgkgGzc8cAahJsR7a  icon icon-star"></i></div>
+        </a>
+        <div class="_1Ok0AiXwAeYl2SsUBaxgPC _2XRPX11qL4-HxWPuHAzOW5" role="heading">Feeds</div>
+        <a id="focus-Home" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/" href="/"><i class="cq0sTeCPC4GI78UNPdClD icon icon-home_fill"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Home</span></a><a id="focus-Popular" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/r/popular/" href="/r/popular/"><i class="cq0sTeCPC4GI78UNPdClD icon icon-popular"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Popular</span></a><a id="focus-All" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/r/all/" href="/r/all/"><i class="cq0sTeCPC4GI78UNPdClD icon icon-all"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">All</span></a>
+        <div class="_1Ok0AiXwAeYl2SsUBaxgPC _2XRPX11qL4-HxWPuHAzOW5" role="heading">Other</div>
+        <a id="focus-Settings" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/settings" href="/settings">
+            <div class="efdkOLo3oigH_95whTYCp">
+                <div class="_1cyAeeYDGrx7MPL_jRwKZ cq0sTeCPC4GI78UNPdClD ">
+                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                    <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_2h4st4/styles/profileIcon_snoo-nftv2_bmZ0X2VpcDE1NToxMzdfNDY2YTMzMDg4N2JkZjYyZDUzZjk2OGVhODI0NzkzMTUwZjA3NzYyZV8xMTU2ODI_rare_df9c158d-68c7-494e-b0fd-b2fa991470ff-headshot.png?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=ae1cb326c5ebd3609f02bd797d398acac5b8310b"></div>
+                </div>
+            </div>
+            <span class="_1nBP1OfpQDgTmzRFqaVult ">User Settings</span>
+        </a>
+        <a id="focus-Inbox" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/message/inbox/" href="/message/inbox/">
+            <div class="efdkOLo3oigH_95whTYCp">
+                <div class="_1cyAeeYDGrx7MPL_jRwKZ cq0sTeCPC4GI78UNPdClD ">
+                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                    <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_2h4st4/styles/profileIcon_snoo-nftv2_bmZ0X2VpcDE1NToxMzdfNDY2YTMzMDg4N2JkZjYyZDUzZjk2OGVhODI0NzkzMTUwZjA3NzYyZV8xMTU2ODI_rare_df9c158d-68c7-494e-b0fd-b2fa991470ff-headshot.png?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=ae1cb326c5ebd3609f02bd797d398acac5b8310b"></div>
+                </div>
+            </div>
+            <span class="_1nBP1OfpQDgTmzRFqaVult ">Messages</span>
+        </a>
+        <a id="focus-CreatePost" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/submit" href="/submit"><i class="cq0sTeCPC4GI78UNPdClD icon icon-add"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Create Post</span></a><a id="focus-NotificationsInbox" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/notifications" href="/notifications"><i class="cq0sTeCPC4GI78UNPdClD icon icon-notification"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Notifications</span></a><a id="focus-Coins" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/coins" href="/coins"><i class="cq0sTeCPC4GI78UNPdClD icon icon-coins"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Coins</span></a><a id="focus-Premium" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/premium" href="/premium"><i class="cq0sTeCPC4GI78UNPdClD icon icon-premium"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Premium</span></a><a id="focus-Avatar" role="menuitem" class="_26MVepkxZHzpNv1cuAA4JA _2MgAHlPDdKvXiG-Qbz5cbC " tabindex="-1" aria-label="/avatar" href="/avatar"><i class="cq0sTeCPC4GI78UNPdClD icon icon-avatar_style"></i><span class="_1nBP1OfpQDgTmzRFqaVult ">Avatar</span></a>
+    </div>
+</div>
+<div>
+    <div class="qYj03fU5CXf5t2Fc5iSvg ListingLayout-outerContainer ">
+        <div class="_2wxsLGNmMLx6sEMLJyn2o9 ListingLayout-backgroundContainer" style="--pseudo-before-background:#DAE0E6;"></div>
+        <div class="_3ozFtOe6WpJEMUtxDOIvtU">
+            <div style="max-width:100%"></div>
+            <div class="_31N0dvxfpsO6Ur5AKx4O5d" style="max-width:100%">
+                <div class="_1OVBBWLtHoSPfGCRaPzpTf _3nSp9cdBpqL13CqjdMr2L_ _2OVNlZuUd8L9v0yVECZ2iA">
+                    @*<div class="_2jJNpBqXMbbyOiGCElTYxZ">
+                        <a class="_2E_zUw3OUkCKUFrIQwE894" href="/user/Jazzlike-Space">
+                            <div class="efdkOLo3oigH_95whTYCp">
+                                <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W ">
+                                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                    <div class="_1XJXnCAngvZLEeLpB3oa4L"><img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="https://styles.redditmedia.com/t5_2h4st4/styles/profileIcon_snoo-nftv2_bmZ0X2VpcDE1NToxMzdfNDY2YTMzMDg4N2JkZjYyZDUzZjk2OGVhODI0NzkzMTUwZjA3NzYyZV8xMTU2ODI_rare_df9c158d-68c7-494e-b0fd-b2fa991470ff-headshot.png?width=256&amp;height=256&amp;frame=1&amp;auto=webp&amp;crop=256:256,smart&amp;v=enabled&amp;s=ae1cb326c5ebd3609f02bd797d398acac5b8310b"></div>
+                                </div>
+                            </div>
+                        </a>
+                        <input type="text" name="createPost" class="zgT5MfUrDMC54cpiCpZFu" placeholder="Create Post"><a class="_27e9yld2jAIIWQNc4A70if _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC _3ukcnQySDskQwK_wB2iXYl _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m" role="button" tabindex="0" aria-label="Create Media Post" id="post-composer-du-media" href="/submit?media=true"><i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-image_post"></i></a><a class="_27e9yld2jAIIWQNc4A70if _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC _3ukcnQySDskQwK_wB2iXYl _1tPpYVD73ugqp4k-VMFRki _3ojSE1JW7jxNzUzZK8kt7m" role="button" tabindex="0" aria-label="Create Link Post" id="post-composer-du-link" href="/submit?url"><i class="_1mvTX6krm3Q2d1CSyUm28s  icon icon-link_post"></i></a>
+                    </div>*@
+                    @*<div class="wBtTDilkW_rtT2k5x3eie">
+                        <div class="_1oAH8WzvQU6SeYEsM1msMu tsl4Q1J90HdQwt_L2rJC9">
+                            <div class="_3-LItr7eURRBwGwCaMD0eB "><button role="menuitem" id="ListingSort--SortPicker" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1gYorLdXyKMUS-i9loCkHd _3zv8UgDcsOix4lXOk2qE9v "><span class="pthKOcceozMuXLYrLlbL1"><i class="icon icon-best"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Best</span><i class="icon icon-caret_down _1oxgVV3q47KbjEKqP5CHuM"></i></button></div>
+                            <div class="_1VhYfuKTAdUU_3j4cMjkr5"><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1yVJwSS9tASrkJ6R6wvXpT _1oYEKCssGFjqxQ9jJMNj5G _1IKtbRloF_LV1hPqMzP3MC" role="menuitem" href="/best/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-best"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Best</span></a><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/hot/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-hot"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Hot</span></a><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/new/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-new"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">New</span></a><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/top/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-top"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Top</span></a><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/rising/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-rising"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Rising</span></a></div>
+                        </div>
+                        <div class="_2pUO1Sfe7WlIHvq6goN3Pz"><a class="M2Hk_S2yvXpsNPfZMBMur _1s79QnBguPbckxiiPvFXGP _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/best/"><i class="_2bDYspp_i6ETGHhD6zIa94 _1mvTX6krm3Q2d1CSyUm28s  icon icon-best_fill"></i><span class="">Best</span></a><a class="M2Hk_S2yvXpsNPfZMBMur _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/hot/"><i class="_2bDYspp_i6ETGHhD6zIa94 _1mvTX6krm3Q2d1CSyUm28s  icon icon-hot"></i><span class="">Hot</span></a><a class="M2Hk_S2yvXpsNPfZMBMur _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/new/"><i class="_2bDYspp_i6ETGHhD6zIa94 _1mvTX6krm3Q2d1CSyUm28s  icon icon-new"></i><span class="">New</span></a><a class="M2Hk_S2yvXpsNPfZMBMur _2iuoyPiKHN3kfOoeIQalDT _3zbhtNO0bdck0oYbYRhjMC HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/top/"><i class="_2bDYspp_i6ETGHhD6zIa94 _1mvTX6krm3Q2d1CSyUm28s  icon icon-top"></i><span class="">Top</span></a></div>
+                        <div class="_1oAH8WzvQU6SeYEsM1msMu">
+                            <div class="_3-LItr7eURRBwGwCaMD0eB "><button class="_2yF1lH154qN6wYff1cVkh6" id="ListingSort--Overflow"><i class="icon icon-overflow_horizontal"></i></button></div>
+                            <div class="_1VhYfuKTAdUU_3j4cMjkr5"><a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/rising/"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3HQa2czyzeTD5qteZcHyI2 icon icon-rising"></i></span><span class="_2-cXnP74241WI7fpcpfPmg">Rising</span></a></div>
+                        </div>
+                        <div class="_2ZvnlxtjA4YPENO_OgH0Pw _1g_Ul7rGanet-Y5dydxeq5" id="view--layout--FUE">
+                            <div class="U2iuzTD5-OeYSFP8fg9ky">
+                                <button role="menuitem" id="LayoutSwitch--picker" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1F02c6Yw0dfhdWwl99UrYn _1fiOgAxLiYfEU41C1NOX9B _3EHmSVytc7PNTijH2qfAan _1IKtbRloF_LV1hPqMzP3MC"><span class="pthKOcceozMuXLYrLlbL1 _1WRDpeSLbiEc03Pp3Nh9H1"><i class="_2ONLRjLuDplXKbcaS8dGe_ icon icon-view_card"></i></span><span class="_2-cXnP74241WI7fpcpfPmg PEJfazq4pplDD3Ti9Yaj3">card</span><i class="icon icon-caret_down _1oxgVV3q47KbjEKqP5CHuM"></i></button>
+                                <div class="_1VhYfuKTAdUU_3j4cMjkr5"><button role="menuitem" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1F02c6Yw0dfhdWwl99UrYn _1fiOgAxLiYfEU41C1NOX9B _1IKtbRloF_LV1hPqMzP3MC"><span class="pthKOcceozMuXLYrLlbL1 _1WRDpeSLbiEc03Pp3Nh9H1"><i class="_2ONLRjLuDplXKbcaS8dGe_ icon icon-view_card_fill"></i></span><span class="_2-cXnP74241WI7fpcpfPmg PEJfazq4pplDD3Ti9Yaj3">card</span></button><button role="menuitem" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1F02c6Yw0dfhdWwl99UrYn  _1oYEKCssGFjqxQ9jJMNj5G"><span class="pthKOcceozMuXLYrLlbL1 _1WRDpeSLbiEc03Pp3Nh9H1"><i class="_2ONLRjLuDplXKbcaS8dGe_ icon icon-view_classic"></i></span><span class="_2-cXnP74241WI7fpcpfPmg PEJfazq4pplDD3Ti9Yaj3">classic</span></button><button role="menuitem" class="_10K5i7NW6qcm-UoCtpB3aK _3LwUIE7yX7CZQKmD2L87vf _1F02c6Yw0dfhdWwl99UrYn  _1oYEKCssGFjqxQ9jJMNj5G"><span class="pthKOcceozMuXLYrLlbL1 _1WRDpeSLbiEc03Pp3Nh9H1"><i class="_2ONLRjLuDplXKbcaS8dGe_ icon icon-view_compact"></i></span><span class="_2-cXnP74241WI7fpcpfPmg PEJfazq4pplDD3Ti9Yaj3">compact</span></button></div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div tabindex="0"></div>
+                   @* <div class="_2w46GjyOK9f8VUpIbu6q1B">
+                        <div class="_3LO_LEpMLN8-uaedpg6nl4 _3QVmoK4pfXYk-E13BWrpzd _3bDW1dwX-jslT_naNgPVpF">
+                            <button class="cmR5BF4NpBUm3DBMZCmJS _2R__ntXP0SJs6INH-bBBFn">New Posts</button>
+                            <button class="_1PPMaBuBIFqAY5VrSWww3Y">
+                                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="_1P6W3uUZ7ehYwJrW6a7sfJ">
+                                    <polygon fill="inherit" points="11.649 9.882 18.262 3.267 16.495 1.5 9.881 8.114 3.267 1.5 1.5 3.267 8.114 9.883 1.5 16.497 3.267 18.264 9.881 11.65 16.495 18.264 18.262 16.497"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>*@
+                   
+                    <div class="rpBJOHq2PR60pnwJlUyP0">
+                        @foreach (var item in Model.Posts)
+                        {
+                            if (item.Type.ToLower().Contains("public"))
+                            {
+                                if (item.FileName.Contains(".mp4"))
+                                {
+                                    <div data-scroller-first="">
+                                        <div>
+                                            <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12cnudf " data-testid="post-container" id="t3_12cnudf" tabindex="-1" data-adclicklocation="background">
+                                                <div></div>
+                                                <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                                    <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12cnudf">
+                                                        <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12cnudf"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                        <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12cnudf_count_anim"></span>0</div>
+                                                        <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                    </div>
+                                                </div>
+                                                <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                                    <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                                        <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/ProgrammerHumor/">
+                                                            <img style="background-color:#FF4500" alt="Subreddit Icon" role="presentation"  src="~/img/@item.Community.Logo" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                                        <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                            <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                                <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                    <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="home/communitydetail?id=@item.CommunityId">r/@item.Community.Name</a>
+                                                                    <div id="SubredditInfoTooltip--t3_12cnudf--ProgrammerHumor"></div>
+                                                                </div>
+                                                                <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                                <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                    <div id="UserInfoTooltip--t3_12cnudf"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/home/userdetail?id=@item.UserId" style="color: rgb(120, 124, 126);">u/@item.User.Fname</a></div>
+                                                                </div>
+                                                                @{
+                                                                    string MyFunction(DateTime dateTime)
+                                                                    {
+                                                                        string result = string.Empty;
+                                                                        var timeSpan = DateTime.Now.Subtract(dateTime);
+
+                                                                        if (timeSpan <= TimeSpan.FromSeconds(60))
+                                                                        {
+                                                                            result = string.Format("{0} seconds ago", timeSpan.Seconds);
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromMinutes(60))
+                                                                        {
+                                                                            result = timeSpan.Minutes > 1 ?
+                                                                            String.Format("about {0} minutes ago", timeSpan.Minutes) :
+                                                                            "about a minute ago";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromHours(24))
+                                                                        {
+                                                                            result = timeSpan.Hours > 1 ?
+                                                                            String.Format("about {0} hours ago", timeSpan.Hours) :
+                                                                            "about an hour ago";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromDays(30))
+                                                                        {
+                                                                            result = timeSpan.Days > 1 ?
+                                                                            String.Format("about {0} days ago", timeSpan.Days) :
+                                                                            "yesterday";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromDays(365))
+                                                                        {
+                                                                            result = timeSpan.Days > 30 ?
+                                                                            String.Format("about {0} months ago", timeSpan.Days / 30) :
+                                                                            "about a month ago";
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            result = timeSpan.Days > 365 ?
+                                                                            String.Format("about {0} years ago", timeSpan.Days / 365) :
+                                                                            "about a year ago";
+                                                                        }
+
+                                                                        return result;
+                                                                    }
+                                                                }
+                                                                <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">@MyFunction((DateTime)item.CreatedDate)</span>
+                                                            </div>
+                                                            <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                            <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                                        </div>
+                                                        
+                                                        @if(Model.Community != null)
+                                                        {
+                                                            foreach(var i in Model.Community)
+                                                            {
+                                                               
+                                                                c.Add(i.Name);
+                                                            }
+
+                                                             @if (c.Contains(item.Community.Name))
+                                                             {
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <a href="home/join?communityId=@item.Community.Id">
+                                                                    <button role="button" tabindex="0" id="subscribe-button-t3_13anptz" class="_35dG7dsi4xKTT-_2MB74qq _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts UEPNkU0rd1-nvbkOcBatc ">
+                                                                        <span>Join</span>
+                                                                    </button>
+                                                                </a>
+                                                            }
+                                                        }else{
+                                                           <a href="/Register/Login"><button role="button" tabindex="0" id="subscribe-button-t3_13anptz" class="_35dG7dsi4xKTT-_2MB74qq _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts UEPNkU0rd1-nvbkOcBatc ">
+                                                            <span>Join</span>
+                                                            </button></a>
+                                                        }
+
+                                                       
+                                                        
+                                                    </div>
+                                                    <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12cnudf" data-adclicklocation="title">
+                                                        <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                            <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/home/details?id=@item.Id">
+                                                                <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                                    <h3 class="_eYtD2XCVieq6emjKBH3m">@item.Title</h3>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        @*<div class="_2xu1HuBz1Yx6SP10AGVx_I" data-ignore-click="false">
+                                                            <div class="lrzZ8b0L6AzLkQj5Ww7H1"></div>
+                                                            <div class="lrzZ8b0L6AzLkQj5Ww7H1">
+                                                                <a href="/r/ProgrammerHumor/?f=flair_name%3A%22Other%22">
+                                                                    <div style="background-color:#373C3F;color:#FFFFFF" class="_2X6EB3ZhEeXCh1eIVA64XM _2hSecp_zkPm_s5ddV2htoj _2VqfzH0dZ9dIl3XWNxs42y aJrgrewN9C8x1Fusdx4hh _1Dl-kvSxyJMWO9nuoTof8N "><span>Other</span></div>
+                                                                </a>
+                                                                <span class="_1wzhGvvafQFOWAyA157okr" style="border:1px solid #FF585B;color:#FF585B">nsfw</span>
+                                                            </div>
+                                                        </div>*@
+                                                        <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                            <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                                        </div>
+                                                        <style>
+                                                            .t3_12cnudf._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                                --postTitle-VisitedLinkColor: #9b9b9b;
+                                                                --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                                --postBodyLink-VisitedLinkColor: #989898;
+                                                            }
+                                                        </style>
+                                                    </div>
+                                                    <div class="STit0dLageRsa2yR4te_b">
+                                                        <div class="m3aNC6yp8RrNM_-a0rrfa " data-click-id="media" style="max-height:249px">
+                                                            <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:38.90625%"></div>
+                                                            <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                                <div class="_1NSbknF8ucHV2abfCZw2Z1 ">
+                                                                    <a href="/home/details?id=@item.Id">
+                                                                        <div class="_3Oa0THmZ3f5iZXAQ0hBJ0k " style="max-height:512px;margin:0 auto">
+                                                                            <div>
+                                                                                <video style="max-height:14rem;max-width:37rem;" controls>
+                                                                                    <source src="~/img/@item.FileName" type="video/mp4">
+
+                                                                                    Your browser does not support the video tag.
+                                                                                </video>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12cnudf">
+                                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">0</div>
+                                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                        </div>
+                                                        <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                            <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="home/details?id=@item.Id"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12cnudf_count_anim"></span>comments</span></a>
+                                                            <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><a href="/home/details?id=@item.Id"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12cnudf"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></a></div>
+                                                            <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12cnudf-share-menu"><a href="/home/details?id=@item.Id"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></a></div>
+                                                            <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><a href="/home/details?id=@item.Id"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></a></div>
+                                                            <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                            <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                                <div><a href="/home/details?id=@item.Id"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12cnudf-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></a></div>
+                                                            </div>
+                                                            <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div data-scroller-first="">
+                                        <div>
+                                            <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12cnudf " data-testid="post-container" id="t3_12cnudf" tabindex="-1" data-adclicklocation="background">
+                                                <div></div>
+                                                <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                                    <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12cnudf">
+                                                        <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12cnudf"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                        <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12cnudf_count_anim"></span>0</div>
+                                                        <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                    </div>
+                                                </div>
+                                                <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                                    <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                                        <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/ProgrammerHumor/">
+                                                            <img style="background-color:#FF4500" alt="Subreddit Icon" role="presentation" src="~/img/@item.Community.Logo" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                                        <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                            <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                                <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                    <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="home/communitydetail?id=@item.CommunityId">r/@item.Community.Name</a>
+                                                                    <div id="SubredditInfoTooltip--t3_12cnudf--ProgrammerHumor"></div>
+                                                                </div>
+                                                                <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                                <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                                    <div id="UserInfoTooltip--t3_12cnudf"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/home/userdetail?id=@item.UserId" style="color: rgb(120, 124, 126);">u/@item.User.Fname</a></div>
+                                                                </div>
+                                                                @{
+                                                                    string MyFunction(DateTime dateTime)
+                                                                    {
+                                                                        string result = string.Empty;
+                                                                        var timeSpan = DateTime.Now.Subtract(dateTime);
+
+                                                                        if (timeSpan <= TimeSpan.FromSeconds(60))
+                                                                        {
+                                                                            result = string.Format("{0} seconds ago", timeSpan.Seconds);
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromMinutes(60))
+                                                                        {
+                                                                            result = timeSpan.Minutes > 1 ?
+                                                                            String.Format("about {0} minutes ago", timeSpan.Minutes) :
+                                                                            "about a minute ago";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromHours(24))
+                                                                        {
+                                                                            result = timeSpan.Hours > 1 ?
+                                                                            String.Format("about {0} hours ago", timeSpan.Hours) :
+                                                                            "about an hour ago";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromDays(30))
+                                                                        {
+                                                                            result = timeSpan.Days > 1 ?
+                                                                            String.Format("about {0} days ago", timeSpan.Days) :
+                                                                            "yesterday";
+                                                                        }
+                                                                        else if (timeSpan <= TimeSpan.FromDays(365))
+                                                                        {
+                                                                            result = timeSpan.Days > 30 ?
+                                                                            String.Format("about {0} months ago", timeSpan.Days / 30) :
+                                                                            "about a month ago";
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            result = timeSpan.Days > 365 ?
+                                                                            String.Format("about {0} years ago", timeSpan.Days / 365) :
+                                                                            "about a year ago";
+                                                                        }
+
+                                                                        return result;
+                                                                    }
+                                                                }
+                                                                <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">@MyFunction((DateTime)item.CreatedDate)</span>
+                                                            </div>
+                                                            <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                            <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                                        </div>
+                                                        @if (Model.Community != null)
+                                                        {
+                                                            foreach (var i in Model.Community)
+                                                            {
+
+                                                                c.Add(i.Name);
+                                                            }
+
+                                                            @if (c.Contains(item.Community.Name))
+                                                            {
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <a href="home/join?communityId=@item.Community.Id">
+                                                                    <button role="button" tabindex="0" id="subscribe-button-t3_13anptz" class="_35dG7dsi4xKTT-_2MB74qq _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts UEPNkU0rd1-nvbkOcBatc ">
+                                                                        <span>Join</span>
+                                                                    </button>
+                                                                </a>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/register/login"><button role="button" tabindex="0" id="subscribe-button-t3_13anptz" class="_35dG7dsi4xKTT-_2MB74qq _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts UEPNkU0rd1-nvbkOcBatc ">
+                                                            <span>Join</span>
+                                                            </button></a>
+                                                        }
+                                                        
+                                                    </div>
+                                                    <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12cnudf" data-adclicklocation="title">
+                                                        <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                            <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/Home/details?id=@item.Id">
+                                                                <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                                    <h3 class="_eYtD2XCVieq6emjKBH3m">@item.Title</h3>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        @*<div class="_2xu1HuBz1Yx6SP10AGVx_I" data-ignore-click="false">
+                                                            <div class="lrzZ8b0L6AzLkQj5Ww7H1"></div>
+                                                            <div class="lrzZ8b0L6AzLkQj5Ww7H1">
+                                                                <a href="/home/details?id=@item.Id">
+                                                                    <div style="background-color:#373C3F;color:#FFFFFF" class="_2X6EB3ZhEeXCh1eIVA64XM _2hSecp_zkPm_s5ddV2htoj _2VqfzH0dZ9dIl3XWNxs42y aJrgrewN9C8x1Fusdx4hh _1Dl-kvSxyJMWO9nuoTof8N "><span>Other</span></div>
+                                                                </a>
+                                                                <span class="_1wzhGvvafQFOWAyA157okr" style="border:1px solid #FF585B;color:#FF585B">nsfw</span>
+                                                            </div>
+                                                        </div>*@
+                                                        <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                            <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                                        </div>
+                                                        <style>
+                                                            .t3_12cnudf._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                                --postTitle-VisitedLinkColor: #9b9b9b;
+                                                                --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                                --postBodyLink-VisitedLinkColor: #989898;
+                                                            }
+                                                        </style>
+                                                    </div>
+                                                    <div class="STit0dLageRsa2yR4te_b">
+                                                        <div class="m3aNC6yp8RrNM_-a0rrfa " data-click-id="media" style="max-height:249px">
+                                                            <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:38.90625%"></div>
+                                                            <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                                <div  class="_1NSbknF8ucHV2abfCZw2Z1 ">
+                                                                    <a href="/home/details?id=@item.Id">
+                                                                        <div  class="_3Oa0THmZ3f5iZXAQ0hBJ0k " style="max-height:512px;margin:0 auto">
+                                                                            <div ><img alt="Post image" class="_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image media-element _1XWObl-3b9tPy64oaG6fax"  src="~/img/@item.FileName" style="max-height:235px"></div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12cnudf">
+                                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">0</div>
+                                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                                        </div>
+                                                        <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                            <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="/home/details?id=@item.Id"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12cnudf_count_anim"></span>comments</span></a>
+                                                            <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><a href="/home/details?id=@item.Id">
+                                                                    <button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12cnudf"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button>
+                                                                </a>
+                                                            </div>
+                                                            <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12cnudf-share-menu"><a href="/home/details?id=@item.Id"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></a></div>
+                                                            <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><a href="/home/details?id=@item.Id"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></a></div>
+                                                            <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                            <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                                <div><a href="/home/details?id=@item.Id"><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12cnudf-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></a></div>
+                                                            </div>
+                                                            <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                           
+                          
+                        }
+                        @*<div data-scroller-first="">
+                            <div>
+                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12cnudf " data-testid="post-container" id="t3_12cnudf" tabindex="-1" data-adclicklocation="background">
+                                    <div></div>
+                                    <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12cnudf">
+                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12cnudf"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12cnudf_count_anim"></span>0</div>
+                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                            <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/ProgrammerHumor/"><img style="background-color:#FF4500" alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_2tex6/styles/communityIcon_u89jf60zv7p41.png" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/ProgrammerHumor/">r/ProgrammerHumor</a>
+                                                        <div id="SubredditInfoTooltip--t3_12cnudf--ProgrammerHumor"></div>
+                                                    </div>
+                                                    <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <div id="UserInfoTooltip--t3_12cnudf"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/user/raptored01/" style="color: rgb(120, 124, 126);">u/raptored01</a></div>
+                                                    </div>
+                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">19 hours ago</span>
+                                                </div>
+                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                            </div>
+                                        </div>
+                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12cnudf" data-adclicklocation="title">
+                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/r/ProgrammerHumor/comments/12cnudf/so_pycharm_is_sexist_now/">
+                                                    <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                        <h3 class="_eYtD2XCVieq6emjKBH3m">So, PyCharm is sexist now</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="_2xu1HuBz1Yx6SP10AGVx_I" data-ignore-click="false">
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1"></div>
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1">
+                                                    <a href="/r/ProgrammerHumor/?f=flair_name%3A%22Other%22">
+                                                        <div style="background-color:#373C3F;color:#FFFFFF" class="_2X6EB3ZhEeXCh1eIVA64XM _2hSecp_zkPm_s5ddV2htoj _2VqfzH0dZ9dIl3XWNxs42y aJrgrewN9C8x1Fusdx4hh _1Dl-kvSxyJMWO9nuoTof8N "><span>Other</span></div>
+                                                    </a>
+                                                    <span class="_1wzhGvvafQFOWAyA157okr" style="border:1px solid #FF585B;color:#FF585B">nsfw</span>
+                                                </div>
+                                            </div>
+                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                            </div>
+                                            <style>
+                                                .t3_12cnudf._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                }
+                                            </style>
+                                        </div>
+                                        <div class="STit0dLageRsa2yR4te_b">
+                                            <div class="m3aNC6yp8RrNM_-a0rrfa " data-click-id="media" style="max-height:249px">
+                                                <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:38.90625%"></div>
+                                                <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                    <div class="_1NSbknF8ucHV2abfCZw2Z1 ">
+                                                        <a href="/r/ProgrammerHumor/comments/12cnudf/so_pycharm_is_sexist_now/">
+                                                            <div class="_3Oa0THmZ3f5iZXAQ0hBJ0k " style="max-height:512px;margin:0 auto">
+                                                                <div><img alt="Post image" class="_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image media-element _1XWObl-3b9tPy64oaG6fax" src="https://preview.redd.it/8vfs8i5ik4sa1.jpg?width=640&amp;crop=smart&amp;auto=webp&amp;v=enabled&amp;s=d0487f049aee3f8bf5908a47289ae7bf90e8ae8b" style="max-height:512px"></div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12cnudf">
+                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">0</div>
+                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                            </div>
+                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href=""><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12cnudf_count_anim"></span>5 comments</span></a>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12cnudf"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12cnudf-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12cnudf-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                </div>
+                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="">
+                            <div class="">
+                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12d01bq " data-testid="post-container" id="t3_12d01bq" tabindex="-1" data-adclicklocation="background">
+                                    <div></div>
+                                    <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12d01bq">
+                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12d01bq"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12d01bq_count_anim"></span>6</div>
+                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                            <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/space/"><img style="background-color:#373C3F" alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_2qh87/styles/communityIcon_ub69d1lpjlf51.png" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/space/">r/space</a>
+                                                        <div id="SubredditInfoTooltip--t3_12d01bq--space"></div>
+                                                    </div>
+                                                    <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <div id="UserInfoTooltip--t3_12d01bq"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/user/Any_Flatworm_3956/" style="color: rgb(120, 124, 126);">u/Any_Flatworm_3956</a></div>
+                                                    </div>
+                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">13 hours ago</span>
+                                                </div>
+                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                            </div>
+                                        </div>
+                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12d01bq" data-adclicklocation="title">
+                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/r/space/comments/12d01bq/is_it_possible_to_see_the_singularity_of_a_black/">
+                                                    <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                        <h3 class="_eYtD2XCVieq6emjKBH3m">Is it possible to see the singularity of a black hole this way?</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="_2xu1HuBz1Yx6SP10AGVx_I" data-ignore-click="false">
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1"></div>
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1"><a href="/r/space/?f=flair_name%3A%22Discussion%22"><span class="_1jNPl3YUk6zbpLWdjaJT1r _2VqfzH0dZ9dIl3XWNxs42y aJrgrewN9C8x1Fusdx4hh _1Dl-kvSxyJMWO9nuoTof8N " style="background-color: rgb(237, 239, 241); color: rgb(26, 26, 27);">Discussion</span></a></div>
+                                            </div>
+                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                            </div>
+                                            <style>
+                                                .t3_12d01bq._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                }
+                                            </style>
+                                        </div>
+                                        <div class="STit0dLageRsa2yR4te_b">
+                                            <a data-click-id="body" class="undefined" href="/r/space/comments/12d01bq/is_it_possible_to_see_the_singularity_of_a_black/">
+                                                <div class="Chtkt3BCZQruf0LtmFg2c" style="max-height:250px" data-click-id="text" data-adclicklocation="media">
+                                                    <div class="_292iotee39Lmt0MkQZ2hPV RichTextJSON-root">
+                                                        <p class="_1qeIAgB0cPwnLhDF9XSiJM">When two black holes merge, their center (the singularity) should "come out" to the edge of the event horizon for a split second when the two are closest to each other before merging, is it not?</p>
+                                                        <p class="_1qeIAgB0cPwnLhDF9XSiJM">If we focus our space telescopes on two merging black holes all the way to completion, I think one day we will understand what is going on inside of them..</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12d01bq">
+                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">6</div>
+                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                            </div>
+                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="/r/space/comments/12d01bq/is_it_possible_to_see_the_singularity_of_a_black/"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12d01bq_count_anim"></span>22 comments</span></a>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12d01bq"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12d01bq-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12d01bq-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                </div>
+                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <div>
+                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12d9rvc " data-testid="post-container" id="t3_12d9rvc" tabindex="-1" data-adclicklocation="background">
+                                    <div></div>
+                                    <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12d9rvc">
+                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12d9rvc"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12d9rvc_count_anim"></span>686</div>
+                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                            <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/nextfuckinglevel/"><img style="background-color:#F54504" alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_m0bnr/styles/communityIcon_qanlm185crr71.png" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/nextfuckinglevel/">r/nextfuckinglevel</a>
+                                                        <div id="SubredditInfoTooltip--t3_12d9rvc--nextfuckinglevel"></div>
+                                                    </div>
+                                                    <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <div id="UserInfoTooltip--t3_12d9rvc"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/user/tasrifkhan1/" style="color: rgb(120, 124, 126);">u/tasrifkhan1</a></div>
+                                                    </div>
+                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">5 hours ago</span>
+                                                </div>
+                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                            </div>
+                                        </div>
+                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12d9rvc" data-adclicklocation="title">
+                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/r/nextfuckinglevel/comments/12d9rvc/traffic_light_performance/">
+                                                    <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                        <h3 class="_eYtD2XCVieq6emjKBH3m">Traffic light performance</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                            </div>
+                                            <style>
+                                                .t3_12d9rvc._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                }
+                                            </style>
+                                        </div>
+                                        <div class="STit0dLageRsa2yR4te_b">
+                                            <div class="m3aNC6yp8RrNM_-a0rrfa _3PIKVMCKdveCEcyiKr43sU" data-click-id="media">
+                                                <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:105.34979423868313%"></div>
+                                                <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                    <div style="height: 100%; width: 100%; cursor: default; max-height: 100%; max-width: 100%; color: white;" data-testid="shreddit-player-wrapper">
+                                                        <media-telemetry-observer>
+                                                            <shreddit-player poster="https://external-preview.redd.it/w131EFHpQEiHfLfr4ncbEy3VCt7qnOiPBKAIid5J3A8.png?width=640&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;v=enabled&amp;s=ae0c6c112856aa9c28d627e5cf48f978b5229009" preview="https://v.redd.it/dfldy6ck57sa1/DASH_96.mp4" show-autoplay-toggle="true" src="https://v.redd.it/dfldy6ck57sa1/HLSPlaylist.m3u8?f=sd%2ChlsSpecOrder&amp;v=1&amp;a=1683367112%2CNmIwMDM0OGZhZTFkZmU4MzY3YmI2N2Y5YjM1NmEwOWQxYzU0NTVhMjEyZDNkYTRiMmEyMmYxODgwNjc1NjA0NA%3D%3D" ui="desktop">
+                                                                <source src="https://v.redd.it/dfldy6ck57sa1/HLSPlaylist.m3u8?f=sd%2ChlsSpecOrder&amp;v=1&amp;a=1683367112%2CNmIwMDM0OGZhZTFkZmU4MzY3YmI2N2Y5YjM1NmEwOWQxYzU0NTVhMjEyZDNkYTRiMmEyMmYxODgwNjc1NjA0NA%3D%3D" type="application/vnd.apple.mpegURL">
+                                                            </shreddit-player>
+                                                        </media-telemetry-observer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12d9rvc">
+                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">686</div>
+                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                            </div>
+                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="/r/nextfuckinglevel/comments/12d9rvc/traffic_light_performance/"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12d9rvc_count_anim"></span>61 comments</span></a>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12d9rvc"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12d9rvc-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12d9rvc-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                </div>
+                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12ciduy " data-testid="post-container" id="t3_12ciduy" tabindex="-1" data-adclicklocation="background">
+                                    <div></div>
+                                    <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12ciduy">
+                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12ciduy"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12ciduy_count_anim"></span>3.2k</div>
+                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                        <div class="_292iotee39Lmt0MkQZ2hPV RichTextJSON-root nAL34ZVf4KfyEoZIzUgmN _3hWVRt6y8PqOoC2VuZETZI">
+                                            <p class="_1qeIAgB0cPwnLhDF9XSiJM">Suggested</p>
+                                        </div>
+                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                            <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/CricketShitpost/"><img style="background-color:#FF4500" alt="Subreddit Icon" role="presentation" src="https://styles.redditmedia.com/t5_3fzqh/styles/communityIcon_lz77gt4p77o91.png" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/CricketShitpost/">r/CricketShitpost</a>
+                                                        <div id="SubredditInfoTooltip--t3_12ciduy--CricketShitpost"></div>
+                                                    </div>
+                                                    <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <div id="UserInfoTooltip--t3_12ciduy"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/user/bunny_1010/" style="color: rgb(120, 124, 126);">u/bunny_1010</a></div>
+                                                    </div>
+                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">22 hours ago</span>
+                                                </div>
+                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                            </div>
+                                            <button role="button" tabindex="0" id="subscribe-button-t3_12ciduy" class="_35dG7dsi4xKTT-_2MB74qq _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts UEPNkU0rd1-nvbkOcBatc "><span>Join</span></button>
+                                        </div>
+                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12ciduy" data-adclicklocation="title">
+                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/r/CricketShitpost/comments/12ciduy/guess_the_kirketer_level_extremely_hard/">
+                                                    <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                        <h3 class="_eYtD2XCVieq6emjKBH3m">Guess the Kirketer! LEVEL: EXTREMELY HARD</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="_2xu1HuBz1Yx6SP10AGVx_I" data-ignore-click="false">
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1"></div>
+                                                <div class="lrzZ8b0L6AzLkQj5Ww7H1"><a href="/r/CricketShitpost/?f=flair_name%3A%22Stolen%22"><span class="_1jNPl3YUk6zbpLWdjaJT1r _2VqfzH0dZ9dIl3XWNxs42y aJrgrewN9C8x1Fusdx4hh _1Dl-kvSxyJMWO9nuoTof8N " style="background-color:#FFD635;color:#000000">Stolen</span></a></div>
+                                            </div>
+                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                            </div>
+                                            <style>
+                                                .t3_12ciduy._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                }
+                                            </style>
+                                        </div>
+                                        <div class="STit0dLageRsa2yR4te_b">
+                                            <div class="m3aNC6yp8RrNM_-a0rrfa _3PIKVMCKdveCEcyiKr43sU" data-click-id="media">
+                                                <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:100%"></div>
+                                                <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                    <div style="height: 100%; width: 100%; cursor: default; max-height: 100%; max-width: 100%; color: white;" data-testid="shreddit-player-wrapper">
+                                                        <media-telemetry-observer>
+                                                            <shreddit-player poster="https://external-preview.redd.it/ZQMOP82x9BUoQqIivgN5VNF9vya3-v39e5PX_OI4SOY.png?width=640&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;v=enabled&amp;s=8448e45f8a4dd5be54140fc36c5fc944b37d7cd4" preview="https://v.redd.it/4fe940r752sa1/DASH_96.mp4" show-autoplay-toggle="true" src="https://v.redd.it/4fe940r752sa1/HLSPlaylist.m3u8?f=sd%2ChlsSpecOrder&amp;v=1&amp;a=1683367112%2CNzUxZjdjZTZmYmNmODY2ZTUzNzE3MDNlYmNkOTdiNWMxOGFmMDJiZGM3ZWRmZjBjMTg5YjlmYmQ4ZjkzMDA1Yw%3D%3D" ui="desktop">
+                                                                <source src="https://v.redd.it/4fe940r752sa1/HLSPlaylist.m3u8?f=sd%2ChlsSpecOrder&amp;v=1&amp;a=1683367112%2CNzUxZjdjZTZmYmNmODY2ZTUzNzE3MDNlYmNkOTdiNWMxOGFmMDJiZGM3ZWRmZjBjMTg5YjlmYmQ4ZjkzMDA1Yw%3D%3D" type="application/vnd.apple.mpegURL">
+                                                            </shreddit-player>
+                                                        </media-telemetry-observer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12ciduy">
+                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">3.2k</div>
+                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                            </div>
+                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="/r/CricketShitpost/comments/12ciduy/guess_the_kirketer_level_extremely_hard/"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12ciduy_count_anim"></span>128 comments</span></a>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12ciduy"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12ciduy-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12ciduy-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                </div>
+                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="_1oQyIsiPHYt6nx7VOmd1sz _1RYN-7H8gYctjOQeL8p2Q7 scrollerItem _3Qkp11fjcAw9I9wtLo8frE _1qftyZQ2bhqP62lbPjoGAh  Post t3_12d2aww " data-testid="post-container" id="t3_12d2aww" tabindex="-1" data-adclicklocation="background">
+                                    <div></div>
+                                    <div class="_23h0-EcaBUorIHC-JZyh6J" style="width:40px;border-left:4px solid transparent">
+                                        <div class="_1E9mcoVn4MYnuBQSVDt1gC" id="vote-arrows-t3_12d2aww">
+                                            <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote" id="upvote-button-t3_12d2aww"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                            <div class="_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo " style="color: rgb(26, 26, 27);"><span></span><span id="vote_t3_12d2aww_count_anim"></span>551</div>
+                                            <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="_1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3 " style="background: rgb(255, 255, 255);" data-adclicklocation="background" data-click-id="background">
+                                        <div class="_14-YvdFiW5iVvfe5wdgmET">
+                                            <div class="_2dr_3pZUCk8KfJ-x0txT_l"><a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/Eyebleach/"><img style="background-color:#84D6BE" alt="Subreddit Icon" role="presentation" src="https://b.thumbs.redditmedia.com/MD9KQJnI4uIuXFUzA3DWabdGKJYceQ1uk2_ktRQXcgY.png" class="_34CfAAowTqdbNDYXz5tBTW _1WX5Y5qFVBTdr6hCPpARDB "></a></div>
+                                            <div class="cZPZhMe-UCZ8htPodMyJ5">
+                                                <div class="_3AStxql1mQsrZuUIFP9xSg nU4Je7n-eSXStTBAPMYt8" data-adclicklocation="top_bar">
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <a data-click-id="subreddit" class="_3ryJoIoycVkA88fy40qNJc" href="/r/Eyebleach/">r/Eyebleach</a>
+                                                        <div id="SubredditInfoTooltip--t3_12d2aww--Eyebleach"></div>
+                                                    </div>
+                                                    <span class="_3LS4zudUBagjFS7HjWJYxo _37gsGHa8DMRAxBmQS-Ppg8 _3V4xlrklKBP2Hg51ejjjvz" role="presentation">•</span><span style="color: rgb(120, 124, 126);" class="_2fCzxBE1dlMh4OFc7B3Dun">Posted by</span>
+                                                    <div class="_2mHuuvyV9doV3zwbZPtIPG">
+                                                        <div id="UserInfoTooltip--t3_12d2aww"><a class="_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE" data-click-id="user" data-testid="post_author_link" href="/user/author-miglett2/" style="color: rgb(120, 124, 126);">u/author-miglett2</a></div>
+                                                    </div>
+                                                    <span class="_2VF2J19pUIMSLJFky-7PEI" data-testid="post_timestamp" data-click-id="timestamp" style="color: rgb(120, 124, 126);">10 hours ago</span>
+                                                </div>
+                                                <div class="_2wFk1qX4e1cxk8Pkw1rAHk"></div>
+                                                <div class="_3XoW0oYd5806XiOr24gGdb"></div>
+                                            </div>
+                                        </div>
+                                        <div class="_2FCtq-QzlfuN-SwVMUZMM3 _3wiKjmhpIpoTE2r5KCm2o6 t3_12d2aww" data-adclicklocation="title">
+                                            <div class="y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE">
+                                                <a data-click-id="body" class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE" href="/r/Eyebleach/comments/12d2aww/the_sacabambaspis_an_extinct_genus_of_jawless_fish/">
+                                                    <div class="_2SdHzo12ISmrC8H86TgSCp _3wqmjmv3tb_k-PROt7qFZe " style="--posttitletextcolor:#222222;">
+                                                        <h3 class="_eYtD2XCVieq6emjKBH3m">The sacabambaspis, an extinct genus of jawless fish.</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="_1hLrLjnE1G_RBCNcN9MVQf">
+                                                <img alt="" src="https://www.redditstatic.com/desktop2x/img/renderTimingPixel.png" style="width: 1px; height: 1px;" onload="(__markFirstPostVisible || function(){})();">
+                                            </div>
+                                            <style>
+                                                .t3_12d2aww._2FCtq-QzlfuN-SwVMUZMM3 {
+                                                    --postTitle-VisitedLinkColor: #9b9b9b;
+                                                    --postTitleLink-VisitedLinkColor: #9b9b9b;
+                                                    --postBodyLink-VisitedLinkColor: #989898;
+                                                }
+                                            </style>
+                                        </div>
+                                        <div class="STit0dLageRsa2yR4te_b">
+                                            <div class="m3aNC6yp8RrNM_-a0rrfa " data-click-id="media" style="max-height:400px">
+                                                <div class="_3gBRFDB5C34UWyxEe_U6mD" style="padding-bottom:100%"></div>
+                                                <div class="_3JgI-GOrkmyIeDeyzXdyUD _2CSlKHjH7lsjx0IpjORx14">
+                                                    <div class="_1NSbknF8ucHV2abfCZw2Z1 ">
+                                                        <a href="/r/Eyebleach/comments/12d2aww/the_sacabambaspis_an_extinct_genus_of_jawless_fish/">
+                                                            <div class="_3Oa0THmZ3f5iZXAQ0hBJ0k " style="max-height:512px;margin:0 auto">
+                                                                <div><img alt="Post image" class="_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image media-element _1XWObl-3b9tPy64oaG6fax" src="https://i.redd.it/mn6hrm3yk5sa1.jpg" style="max-height:512px"></div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="_1ixsU4oQRnNfZ91jhBU74y">
+                                            <div class="_1E9mcoVn4MYnuBQSVDt1gC _2oM1YqCxIwkvwyeZamWwhW uFwpR-OdmueYZxdY_rEDX" id="vote-arrows-t3_12d2aww">
+                                                <button aria-label="upvote" aria-pressed="false" class="voteButton " data-click-id="upvote" data-adclicklocation="upvote"><span class="_2q7IQ0BUOWeEZoeAxN555e _3SUsITjKNQ7Tp0Wi2jGxIM qW0l8Af61EP35WIG6vnGk _3edNsMs0PNfyQYofMNVhsG"><i class="icon icon-upvote _2Jxk822qXs4DaXwsN7yyHA"></i></span></button>
+                                                <div class="_1rZYMD_4xY3gRcSS3p8ODO _25IkBM0rRUqWX5ZojEMAFQ" style="color: rgb(26, 26, 27);">551</div>
+                                                <button aria-label="downvote" aria-pressed="false" class="voteButton" data-click-id="downvote" data-adclicklocation="downvote"><span class="_1iKd82bq_nqObFvSH1iC_Q Q0BxYHtCOJ_rNSPJMU2Y7 _2fe-KdD2OM0ciaiux-G1EL _3yQIOwaIuF6gn8db96Gu7y"><i class="icon icon-downvote ZyxIIl4FP5gHGrJDzNpUC"></i></span></button>
+                                            </div>
+                                            <div class="_3-miAEojrCvx_4FQ8x3P-s">
+                                                <a rel="nofollow" data-click-id="comments" data-adclicklocation="comments" data-test-id="comments-page-link-num-comments" class="_1UoeAeSRhOKSNdY_h3iS1O _1Hw7tY9pMr-T1F4P1C-xNU _3U_7i38RDPV5eBv7m4M-9J _2qww3J5KKzsD7e5DO0BvvU" href="/r/Eyebleach/comments/12d2aww/the_sacabambaspis_an_extinct_genus_of_jawless_fish/"><i class="icon icon-comment _3DVrpDrMM9NLT6TlsTUMxC" role="presentation"></i><span class="FHCV02u6Cp2zYL0fhQPsO"><span></span><span id="comment_t3_12d2aww_count_anim"></span>27 comments</span></a>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _1EWxiIupuIjiExPQeK4Kud _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_3yNNYT3e1avhAAWVHd0-92 icon icon-award" id="View--GiveAward--t3_12d2aww"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">Award</span></button></div>
+                                                <div class="_JRBNstMcGxbZUxrrIKXe _3U_7i38RDPV5eBv7m4M-9J _3yh2bniLq7bYr4BaiXowdO _1pShbCnOaF7EGWTq6IvZux _28vEaVlLWeas1CDiLuTCap" id="t3_12d2aww-share-menu"><button data-click-id="share" data-adclicklocation="fl_share" class="kU8ebCMnbXfjCWfqn0WPb"><i class="icon icon-share _1GQDWqbF-wkYWbrpmOvjqJ"></i><span class="_6_44iTtZoeY6_XChKt5b0">share</span></button></div>
+                                                <div data-ignore-click="false" class="_3U_7i38RDPV5eBv7m4M-9J" data-adclicklocation="fl_unknown"><button class="_10K5i7NW6qcm-UoCtpB3aK YszYBnnIoNY8pZ6UwCivd _3yh2bniLq7bYr4BaiXowdO _2sAFaB0tx4Hd5KxVkdUcAx _28vEaVlLWeas1CDiLuTCap"><span class="pthKOcceozMuXLYrLlbL1"><i class="_1Xe01txJfRB9udUU85DNeR icon icon-save"></i></span><span class="_2-cXnP74241WI7fpcpfPmg _70940WUuFmpHbhKlj8EjZ">save</span></button></div>
+                                                <div class="OccjSdFd6HkHhShRg6DOl"></div>
+                                                <div class="_3MmwvEEt6fv5kQPFCVJizH">
+                                                    <div><button aria-expanded="false" aria-haspopup="true" aria-label="more options" id="t3_12d2aww-overflow-menu" data-adclicklocation="overflow_menu" class="_2pFdCpgBihIaYh9DSMWBIu _1EbinKu2t3KjaT2gR156Qp uMPgOFYlCc5uvpa2Lbteu"><i class="_38GxRFSqSC-Z2VLi5Xzkjy icon icon-overflow_horizontal"></i></button></div>
+                                                </div>
+                                                <div class="_21pmAV9gWG6F_UKVe7YIE0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                       
+                        
+                    </div>
+                   
+                </div>
+                <div class="_3Kd8DQpBIbsr5E1JcrMFTY _1tvThPWQpORoc2taKebHxs" style="margin-left:24px;margin-top:0">
+                    <div data-testid="frontpage-sidebar" class="_1FUNcfOeszr8eruqLxCMcR _10wb7d3rGvj56Gcs4IQWL5">
+                        @*<div class="_2vEf-C2keJaBMY9qk_BxVn">
+                            <div class="_1G4yU68P50vRZ4USXfaceV " data-redditstyle="false">
+                                <div class="_3RPJ8hHnfFohktLZca18J6 " style="max-height:none">
+                                    <div class="_1b1Jalg2nxA_Z-BjKXRfAV">
+                                        <div class="_1ms8iFlWXJNWcT29GKsv69">
+                                            <i class="_3-m5rOa3loUClNwpCv1uWU icon icon-premium_fill"></i>
+                                            <div class="_1LofvgShcWAGgRJOa2IRlf">
+                                                <div class="_17PUokUAvL3YJx6EyPdD9d">Reddit Premium</div>
+                                                <div class="rn1KP8t9htFxyeAF8fdJ4">The best Reddit experience, with monthly Coins</div>
+                                            </div>
+                                        </div>
+                                        <button role="button" tabindex="0" class="q_unSaY23rpdd3lDvGZ- _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Try Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="_2vEf-C2keJaBMY9qk_BxVn">
+                            <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX" data-redditstyle="true">
+                                <div class="TmgZY6tDcdErbE5d7E0HJ " style="max-height:none">
+                                    <div class="hpxKmfWP2ZiwdKaWpefMn" style="background-image:url(https://www.redditstatic.com/desktop2x/img/id-cards/home-banner@2x.png)"></div>
+                                    <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                        <div class="_2KqgQ5WzoQRJqjjoznu22o" style="background:url('https://www.redditstatic.com/desktop2x/img/id-cards/snoo-home@2x.png');background-size:40px 68px;height:68px;width:40px"></div>
+                                        <div class="_2TC7AdkcuxFIFKRO_VWis8"><span class="_19bCWnxeTjqzBElWZfIlJb">Home</span></div>
+                                    </div>
+                                    <div data-redditstyle="true" data-testid="no-edit-description-block" class="_1EPynDYoibfs7nDggdH7Gq">
+                                        <div class="_1zPvgKHteTOub9dKkvrOl4">Your personal Reddit frontpage. Come here to check in with your favorite communities.</div>
+                                    </div>
+                                    <hr class="_38lwnrIpIyqxDfAF1iwhcV">
+                                    <div class="_1qiHDKK74j6hUNxM0p9ZIp"><a class="_326PJFFRv8chYfOlaEYmGt _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 " role="button" tabindex="0" href="/home/createpost">Create Post</a>
+                                        <button role="button" tabindex="0" id="abcdefg" class="Jy6FIGP1NvWbVjQZN7FHA _2iuoyPiKHN3kfOoeIQalDT _2tU8R9NTqhvBrhoNAXWWcP HNozj_dKjQZ59ZsfEegz8 _34mIRHpFtnJ0Sk97S2Z3D9">Create Community</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_2vEf-C2keJaBMY9qk_BxVn">
+                            <div>
+                                <div class="_3Im6OD67aKo33nql4FpSp_">
+                                    <div>
+                                        <div class="lnK0-OzG7nLFydTWuXGcY">
+                                            <h2 class="_eYtD2XCVieq6emjKBH3m">Recent posts</h2>
+                                        </div>
+                                        <div class="_3fWuhJ6bVet7XJT5A0mZM2">
+                                            <div class="tN3XUE_42h_qcAw7KSnlh">
+                                                <div class="_2MkcR85HDnYngvlVW2gMMa">
+                                                    <a href="https://i.redd.it/v21ndvcv6a8a1.png" rel="noopener nofollow ugc" target="_blank">
+                                                        <div aria-label="Bloom Dark Colorful by dpcdpc11 [5120x2880]" class="_2c1ElNxHftd8W_nZtcG9zf _33Pa96SGhFVpZeI6a7Y_Pl" data-click-id="image" data-adclicklocation="media" role="img" style="background-image: url(&quot;https://b.thumbs.redditmedia.com/tinnPLqpc9HcEe1199rP-0EMEjITaUGH4DGnaJ1ARug.jpg&quot;); border-color: rgb(237, 239, 241);"><img alt="Bloom Dark Colorful by dpcdpc11 [5120x2880]" class="_25ZOvQhQdAqwdxPd5z-KFB hiddenImg"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="_2mURCICbBWv1kFMX2GPzA_">
+                                                <p class="_2uR1aBUWmKIo8Fcg-D7bPi" title="Bloom Dark Colorful by dpcdpc11 [5120x2880]">Bloom Dark Colorful by dpcdpc11 [5120x2880]</p>
+                                                <div class="_3GMQrxl5pvXDUEFvUjr9Qh ">
+                                                    <div><span class="KoclPkialOte6pOEsb4vx">69 points</span><span class="KoclPkialOte6pOEsb4vx">3 comments</span><span class="KoclPkialOte6pOEsb4vx">12/26/2022</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <button class="_3k5-X9mL_S9RJuKX2c3dFc">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="_1oRQu-aolgpPPJDblUGTw5">
+                            <div class="">
+                                <div class="_2wqyhtudP4weVGsZdVXJgt _1G4yU68P50vRZ4USXfaceV " data-redditstyle="false">
+                                    <div class="_3RPJ8hHnfFohktLZca18J6 " style="max-height:none">
+                                        <div class="_1KrMye71CT332tKKKUWAj6">
+                                            <div class="_3f2nSSsPBqVDV6Sz82qgrR"><a href="https://www.redditinc.com/policies/user-agreement" class="_3Eyh3vRo5o4IfzVZXhaWAG">User Agreement</a><a href="https://www.redditinc.com/policies/privacy-policy" class="_3Eyh3vRo5o4IfzVZXhaWAG">Privacy policy</a></div>
+                                            <div class="_3f2nSSsPBqVDV6Sz82qgrR"><a href="https://www.redditinc.com/policies/content-policy" class="_3Eyh3vRo5o4IfzVZXhaWAG">Content policy</a><a href="https://www.redditinc.com/policies/moderator-guidelines" class="_3Eyh3vRo5o4IfzVZXhaWAG">Moderator Code of Conduct</a></div>
+                                        </div>
+                                        <div class="_1KrMye71CT332tKKKUWAj6">
+                                            <div class="_3f2nSSsPBqVDV6Sz82qgrR"><a href="/" class="_3Eyh3vRo5o4IfzVZXhaWAG">English</a><a href="/fr/" class="_3Eyh3vRo5o4IfzVZXhaWAG">Français</a><a href="/it/" class="_3Eyh3vRo5o4IfzVZXhaWAG">Italiano</a></div>
+                                            <div class="_3f2nSSsPBqVDV6Sz82qgrR"><a href="/de/" class="_3Eyh3vRo5o4IfzVZXhaWAG">Deutsch</a><a href="/es/" class="_3Eyh3vRo5o4IfzVZXhaWAG">Español</a><a href="/pt/" class="_3Eyh3vRo5o4IfzVZXhaWAG">Português</a></div>
+                                        </div>
+                                        <div class="_34dh2eyzMvJfjCBLeoWiDD">Reddit Inc © 2023. All rights reserved</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="_3Tc8YYRhVDX9vlR0XePZfH _365FiUZ11efXHV7l7fNp6K" style="top:calc(100vh - 8px)"><a href="#2x-container"><button role="button" tabindex="0" class="_2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts HNozj_dKjQZ59ZsfEegz8 ">Back to Top</button></a></div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("abcdefg").addEventListener("click", function (e) {
+        
+        e.preventDefault();
+        var popupElement = document.querySelector(".none");
+        popupElement.classList.add("popup");
+        popupElement.classList.remove("none");
+    });
+
+
+    document.getElementById("panchalBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        var popupElement = document.querySelector(".popup");
+        popupElement.classList.add("none");
+        popupElement.classList.remove("popup");
+    });
+
+
+
+</script>

@@ -1,0 +1,57 @@
+﻿@model communityWeb.Models.CommunityRequest
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>CommunityRequest</h4>
+<hr />
+<div class="card shadow mb-4 row w-100 d-flex flex-column align-items-center">
+    <div class="card-body col-md-4 w-100">
+        <form asp-action="Edit" class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="CommunityId" class="control-label"></label>
+                <select asp-for="CommunityId" class="form-control" asp-items="ViewBag.CommunityId"></select>
+                <span asp-validation-for="CommunityId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SentByUserId" class="control-label"></label>
+                <select asp-for="SentByUserId" class="form-control" asp-items="ViewBag.SentByUserId"></select>
+                <span asp-validation-for="SentByUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <div class="editor-field">
+                    @Html.DropDownList("Status", new List<SelectListItem>{
+                    new SelectListItem{ Text="Approved", Value="Approved"},
+                    new SelectListItem{ Text="Disapproved", Value="Disapproved"}
+
+                    }, "--- Select ---",new{@class="form-control"}
+                    )
+                </div>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-block btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

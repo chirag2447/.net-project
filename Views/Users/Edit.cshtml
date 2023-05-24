@@ -1,0 +1,183 @@
+﻿@model communityWeb.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+<div class="card shadow mb-4 row w-100 d-flex flex-column align-items-center">
+    <div class="card-body col-md-4 w-100">
+        <form asp-action="Edit" class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Fname" class="control-label"></label>
+                <input asp-for="Fname" class="form-control" />
+                <span asp-validation-for="Fname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lname" class="control-label"></label>
+                <input asp-for="Lname" class="form-control" />
+                <span asp-validation-for="Lname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input asp-for="EmailId" class="form-control" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select name="State" id="state" class="form-control">
+                    <option value="Please select"></option>
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <select name="City" id="city" class="form-control">
+                    <option value="Please select"></option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+                @if (Model.IsActive == true)
+                {
+
+                    @Html.CheckBoxFor(m=>m.IsActive,true)
+                }
+                else
+                {
+
+                    @Html.CheckBoxFor(m=>m.IsActive,false)
+                }
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <div class="editor-field">
+                    @Html.DropDownList("Gender", new List<SelectListItem>{
+                    new SelectListItem{ Text="Male", Value="Male"},
+                    new SelectListItem{ Text="Female", Value="Female"},
+                    new SelectListItem{ Text="Other", Value="Other"}
+                    }, "--- Select ---",new{@class="form-control"}
+                    )
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="RegisteredDate" class="control-label"></label>
+                <input asp-for="RegisteredDate" class="form-control" />
+                <span asp-validation-for="RegisteredDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-block btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        //getCountry();
+      
+
+            $("#state").empty();
+            $("#state").append("<option>---select state---</option>");
+            $.ajax({
+                url: "/cascade/State",
+                success: function (result) {
+                    $.each(result, function (i, data) {
+                        if(data.name === "@Model.State"){
+
+                        $("#state").append("<option selected value=" + data.name + ">" + data.name + "</option>");
+                        }
+                        else{
+
+                        $("#state").append("<option value=" + data.name + ">" + data.name + "</option>");
+                        }
+                    });
+                }
+            });
+             $("#city").empty();
+            $("#city").append("<option>---select state---</option>");
+            $.ajax({
+                url: "/cascade/City?id=@Model.State",
+                success: function (result) {
+                    $.each(result, function (i, data) {
+                        if(data.name === "@Model.City"){
+
+                        $("#city").append("<option selected value=" + data.name + ">" + data.name + "</option>");
+                        }
+                        else{
+
+                        $("#city").append("<option value=" + data.name + ">" + data.name + "</option>");
+                        }
+                    });
+                }
+            });
+
+       
+
+        //$("#country").change(function () {
+            //$("#city").attr("disabled",true)
+
+           // var id = $(this).val();
+            //$("#state").empty();
+            
+
+           
+            
+
+       // });
+
+        $("#state").change(function () {
+            $("#city").attr('disabled', false);
+
+            var name = $(this).val();
+            console.log(name);
+            $("#city").empty();
+            $("#city").append("<option>---select city---</option>");
+            $.ajax({
+                
+                url: "/cascade/City?id="+name,
+                success: function (result) {
+                    $.each(result, function (i, data) {
+                        $("#city").append("<option value=" + data.name + ">" + data.name + "</option>");
+                    });
+                }
+            });
+
+        });
+
+
+    });
+   
+</script>
